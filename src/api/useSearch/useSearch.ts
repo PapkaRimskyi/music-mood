@@ -1,13 +1,17 @@
-import useSWR from "swr";
-import fetcher from '../api.ts';
+import useSWRMutation from "swr/mutation";
 
-function useSearch(inputValue: string) {
-  const { data, error, isLoading } = useSWR(inputValue, fetcher);
+import fetcher from '../swr-fetcher.ts';
+
+import { ENDPOINTS } from '../endpoints.ts';
+
+function useSearch() {
+  const { data, error, trigger, isMutating } = useSWRMutation(`${ENDPOINTS.SEARCH}`, fetcher);
 
   return {
     singerData: data,
     isError: error,
-    isLoading,
+    isMutating,
+    trigger,
   };
 }
 
