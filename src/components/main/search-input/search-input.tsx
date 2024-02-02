@@ -22,7 +22,15 @@ function SearchInput() {
 
   return (
     <div className="w-1/2 mx-auto">
-      <input className={`w-full py-4 px-5 rounded-lg ${style.input}`} type="text" value={inputValue} onChange={onInputChange} onKeyUp={onInputSearch} disabled={isMutating} placeholder="Singer to search" />
+      <input
+        className={`w-full py-4 px-5 rounded-lg ${style.input}`}
+        type="text"
+        value={inputValue}
+        onChange={onInputChange}
+        onKeyUp={onInputSearch}
+        disabled={isMutating}
+        placeholder="Singer to search"
+      />
     </div>
   );
 }

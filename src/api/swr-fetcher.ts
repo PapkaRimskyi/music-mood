@@ -1,11 +1,16 @@
 import axios from "axios";
 
-const fetcher = (url: string, { arg }: { arg: { searchValue?: string, id?: number } }) => {
+export type TOptionalValues = {
+  searchValue?: string,
+  id?: number,
+}
+
+export type TOptionalArg = { arg: TOptionalValues };
+
+export const fetcher = (url: string, { arg }: TOptionalArg) => {
   const { searchValue, id } = arg;
   const modifiedUrl = id ? `${url}/${id}` : url;
 
   return axios.get(modifiedUrl, { params: { q: searchValue } })
     .then((res) => res.data.data);
 }
-
-export default fetcher;
