@@ -8,6 +8,15 @@
   src: url("Public/fonts/clip.regular.ttf") format("truetype");
 }
 
+/*@keyframes backgroundColor {*/
+/*  from {*/
+/*    background-color: #49108B;*/
+/*  }*/
+/*  to {*/
+/*    background-color: #7E30E1;*/
+/*  }*/
+/*}*/
+
 :root {
   font-family: "Clip", Arial, sans-serif;
   font-weight: 400;
@@ -17,6 +26,7 @@
   color-scheme: dark;
   color: #fbf8fd;
   background-color: #49108B;
+  /*animation: backgroundColor 10s ease-in-out infinite alternate;*/
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
