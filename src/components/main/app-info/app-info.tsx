@@ -5,11 +5,9 @@ function AppInfo() {
     <div className="space-y-3">
       <div>
         <h1 className={`text-6xl uppercase text-center text-neonPink align-middle ${style.heading}`}>
-          Find
+          Music
           <span style={{ fontFamily: "Arial" }}>&#8226;</span>
-          your
-          <span style={{ fontFamily: "Arial" }}>&#8226;</span>
-          music
+          mood
         </h1>
       </div>
       <div className="space-y-3">
