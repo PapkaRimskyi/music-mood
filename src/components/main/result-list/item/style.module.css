@@ -1,0 +1,16 @@
+.musicCard {
+  height: 300px;
+  border-radius: 12px;
+}
+
+.audioLine {
+  width: 100%;
+  height: 4px;
+  background-image: linear-gradient(90deg, #7E30E1 0%, #E26EE5 0%);
+  border-radius: 4px;
+  transition: all .5s;
+}
+
+.audioLineContainer:hover .audioLine {
+  transform: scaleY(1.4);
+}
