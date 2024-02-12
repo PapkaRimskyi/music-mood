@@ -10,8 +10,6 @@ export default defineConfig({
   define: {
     __RAPID_API_KEY__: JSON.stringify(process.env.RAPID_API_KEY),
     __RAPID_API_HOST__: JSON.stringify(process.env.RAPID_API_HOST),
-    __SPOTIFY_CLIENT_ID__: JSON.stringify(process.env.SPOTIFY_CLIENT_ID),
-    __SPOTIFY_SECRET_CODE__: JSON.stringify(process.env.SPOTIFY_SECRET_CODE),
   },
   plugins: [react()],
   server: {
