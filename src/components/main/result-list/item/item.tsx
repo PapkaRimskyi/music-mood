@@ -1,16 +1,20 @@
-import { useRef, SyntheticEvent, MouseEvent } from "react";
+import { useState, useRef, SyntheticEvent, MouseEvent } from "react";
 
 import { ISearch } from "../../../../api/interfaces.ts";
 
 import style from './style.module.css';
+import Time from "./time/time.tsx";
 
 type Props = {
   data: ISearch,
 }
 
 const HUNDRED_PERCENT = 100;
+const DEFAULT_VOLUME_LVL = 0.10;
 
 function Item({ data }: Props) {
+  const [audioDuration, setAudioDuration] = useState(0);
+  const [currentAudioTime, setCurrentAudioTime] = useState(0);
   const musicCardRef = useRef<HTMLLIElement>(null);
   const audioRef = useRef<HTMLAudioElement>(null);
   const audioLineRef = useRef<HTMLDivElement>(null);
@@ -28,6 +32,7 @@ function Item({ data }: Props) {
         (e.currentTarget as HTMLLIElement).classList.remove(style.musicCardPaused);
       }
     }
+    console.log(document.querySelector(`audio[src="${data.preview}"]`));
   }
 
   const changeCurrentTimeBarByClicking = (e: MouseEvent<HTMLDivElement>) => {
@@ -47,7 +52,13 @@ function Item({ data }: Props) {
     if (ended) {
       musicCardRef.current!.classList.remove(style.musicCardPlaying);
     }
+    setCurrentAudioTime(Math.floor(currentTime));
   }
+
+  const handleOnLoadedMetaData = (e: SyntheticEvent<HTMLAudioElement, Event>) => {
+    e.currentTarget.volume = DEFAULT_VOLUME_LVL;
+    setAudioDuration(Math.floor(e.currentTarget.duration));
+  };
 
   return (
     <li
@@ -68,9 +79,16 @@ function Item({ data }: Props) {
             {data.artist.name} - {data.title}
           </a>
         </div>
-        <audio className="hidden" tabIndex={-1} onTimeUpdate={changeCurrentTimeBar} ref={audioRef} src={data.preview} controls></audio>
+        <audio
+          ref={audioRef}
+          className="hidden"
+          src={data.preview}
+          tabIndex={-1}
+          onTimeUpdate={changeCurrentTimeBar}
+          onLoadedMetadata={handleOnLoadedMetaData}
+        ></audio>
         <div className="mt-auto flex flex-col">
-          <div className={`ml-auto ${style.soundButton}`} />
+          <Time currentTime={currentAudioTime} duration={audioDuration} />
           <div
             className={`swiper-no-swiping cursor-pointer ${style.audioLineContainer}`}
             onClick={changeCurrentTimeBarByClicking}

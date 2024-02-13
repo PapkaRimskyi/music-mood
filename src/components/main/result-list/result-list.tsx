@@ -13,6 +13,10 @@ type Props = {
 }
 
 function ResultList({ results }: Props) {
+  const turnOffCurrentAudioAfterSwipe = (currentIndex: number) => {
+    const currentAudio: HTMLAudioElement | null = document.querySelector(`audio[src="${results[currentIndex].preview}"]`);
+    currentAudio?.pause();
+  }
 
   return (
     <div>
@@ -21,6 +25,7 @@ function ResultList({ results }: Props) {
         className={'py-10'}
         grabCursor={true}
         centeredSlides={true}
+        onSlideChange={(e) => turnOffCurrentAudioAfterSwipe(e.previousIndex)}
         slidesPerView={3}
         coverflowEffect={{
           rotate: 50,
