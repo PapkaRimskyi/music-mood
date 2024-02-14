@@ -34,10 +34,16 @@ export interface ISearch {
   duration: number,
   rank: number,
   explicit_lyrics: boolean,
-  explicit_content_lyrics: 1 | 0
-  explicit_content_cover: 1 | 0,
+  explicit_content_lyrics: number
+  explicit_content_cover: number,
   preview: string,
   md5_image: string,
   artist: IArtist,
   album: IAlbum,
+}
+
+export interface ISearchResponse {
+  data: ISearch[],
+  total: number,
+  next?: string,
 }

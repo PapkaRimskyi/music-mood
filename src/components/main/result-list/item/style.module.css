@@ -1,0 +1,79 @@
+@keyframes hidingPlayButton {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes hidingPauseButton {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+.musicCard {
+  height: 300px;
+  border-radius: 12px;
+}
+
+.musicCard::after {
+  position: absolute;
+  content: "";
+  top: 50%;
+  left: 50%;
+  width: 84px;
+  height: 84px;
+  transform: translate(-50%, -50%);
+  background-color: #DDD6F3;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: contain;
+  box-shadow: 0 0 12px 5px rgba(255, 255, 255, .5);
+  border-radius: 50%;
+  opacity: 0;
+}
+
+.musicCardPaused {}
+.musicCardPlaying {}
+
+.musicCard.musicCardPaused::after {
+  background-image: url("Public/images/pause-icon.svg") !important;
+  animation: hidingPauseButton 1s ease-out both;
+}
+
+.musicCard.musicCardPlaying::after {
+  background-image: url("Public/images/play-icon.svg") !important;
+  animation: hidingPlayButton 1s ease-out both;
+}
+
+.soundButton {
+  width: 36px;
+  height: 36px;
+  background-image: url("Public/images/sound-icon.svg");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: contain;
+}
+
+.audioLine {
+  width: 100%;
+  height: 4px;
+  background-image: linear-gradient(90deg, #7E30E1 0%, #E26EE5 0%);
+  border-radius: 4px;
+  transition: all .5s;
+}
+
+.audioLineContainer {
+  z-index: 1000;
+}
+
+.audioLineContainer:hover .audioLine {
+  transform: scaleY(1.4);
+}
+
+

@@ -12,5 +12,5 @@ export const fetcher = (url: string, { arg }: TOptionalArg) => {
   const modifiedUrl = id ? `${url}/${id}` : url;
 
   return axios.get(modifiedUrl, { params: { q: searchValue } })
-    .then((res) => res.data.data);
+    .then((res) => res.data);
 }

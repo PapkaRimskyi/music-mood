@@ -1,14 +1,12 @@
 import AppInfo from "./app-info/app-info.tsx";
-import SearchInput from "./search-input/search-input.tsx";
+import SearchAndResult from "./search-and-result/search-and-result.tsx";
 
 function Main() {
   return (
     <main>
       <section>
         <AppInfo />
-        <div className="mt-8">
-          <SearchInput />
-        </div>
+        <SearchAndResult />
       </section>
     </main>
   )

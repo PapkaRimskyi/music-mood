@@ -4,16 +4,17 @@ import useSearch from "../../../api/useSearch/useSearch.ts";
 
 import style from './style.module.css';
 
-function SearchInput() {
+type Props = Omit<ReturnType<typeof useSearch>, "singerData" | "isError">;
+
+function SearchInput({ trigger, isMutating }: Props) {
   const [inputValue, setInputValue] = useState("");
-  const { singerData, isMutating, trigger } = useSearch();
 
   const onInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
     setInputValue(value);
   }
 
-  const onInputSearch = async(e: KeyboardEvent) => {
+  const onInputSearch = (e: KeyboardEvent) => {
     const { code } = e;
     if (code === 'Enter' && inputValue) {
       trigger({ searchValue: inputValue });
