@@ -1,0 +1,16 @@
+.controlButton {
+  width: 24px;
+  height: 24px;
+}
+
+.controlButtonContainer:first-of-type .controlButton {
+  background-image: url("Public/images/previous.svg");
+}
+
+.controlButtonContainer:nth-child(2) .controlButton {
+  background-image: url("Public/images/play.svg");
+}
+
+.controlButtonContainer:last-of-type .controlButton {
+  background-image: url("Public/images/next.svg");
+}

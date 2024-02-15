@@ -1,12 +1,12 @@
 import AppInfo from "./app-info/app-info.tsx";
-import SearchAndResult from "./search-and-result/search-and-result.tsx";
+import Search from "./search/search.tsx";
 
 function Main() {
   return (
     <main>
       <section>
         <AppInfo />
-        <SearchAndResult />
+        <Search />
       </section>
     </main>
   )
