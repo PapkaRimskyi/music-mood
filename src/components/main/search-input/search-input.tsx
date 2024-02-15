@@ -1,12 +1,12 @@
 import { ChangeEvent, KeyboardEvent, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-import useSearch from "../../../api/useSearch/useSearch.ts";
+import { ROUTES  } from "../../../const/routes.ts";
 
 import style from './style.module.css';
 
-type Props = Omit<ReturnType<typeof useSearch>, "singerData" | "isError">;
-
-function SearchInput({ trigger, isMutating }: Props) {
+function SearchInput() {
+  const navigate = useNavigate();
   const [inputValue, setInputValue] = useState("");
 
   const onInputChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -17,7 +17,7 @@ function SearchInput({ trigger, isMutating }: Props) {
   const onInputSearch = (e: KeyboardEvent) => {
     const { code } = e;
     if (code === 'Enter' && inputValue) {
-      trigger({ searchValue: inputValue });
+      navigate({ pathname: ROUTES.SEARCH_RESULT, search: `?q=${inputValue}` });
     }
   }
 
@@ -29,7 +29,6 @@ function SearchInput({ trigger, isMutating }: Props) {
         value={inputValue}
         onChange={onInputChange}
         onKeyUp={onInputSearch}
-        disabled={isMutating}
         placeholder="Singer to search"
       />
     </div>

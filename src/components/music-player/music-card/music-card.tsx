@@ -52,8 +52,8 @@ function MusicCard({ data }: Props) {
   }
 
   return (
-    <div className={style.container} style={{ backgroundImage: `url(${data.album.cover_xl})` }} onClick={playHandle}>
-      <div className="p-4 h-full flex flex-col relative" style={{ backgroundColor: "rgba(0, 0, 0, .75)" }}>
+    <div className={`mx-auto rounded-lg ${style.container}`} style={{ backgroundImage: `url(${data.album.cover_xl})` }} onClick={playHandle}>
+      <div className="p-4 h-full flex flex-col relative rounded-md" style={{ backgroundColor: "rgba(0, 0, 0, .75)" }}>
         <Header artistName={data.artist.name} title={data.title} link={data.link} />
 
         <audio

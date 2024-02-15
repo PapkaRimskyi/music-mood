@@ -5,10 +5,10 @@ export type TOptionalValues = {
   id?: number,
 }
 
-export type TOptionalArg = { arg: TOptionalValues };
+export type FetcherArgs = { url: string, args: TOptionalValues };
 
-export const fetcher = (url: string, { arg }: TOptionalArg) => {
-  const { searchValue, id } = arg;
+export const fetcher = ({ url, args }: FetcherArgs) => {
+  const { searchValue, id } = args;
   const modifiedUrl = id ? `${url}/${id}` : url;
 
   return axios.get(modifiedUrl, { params: { q: searchValue } })
