@@ -17,40 +17,11 @@
 }
 
 .container {
-  position: relative;
   width: 400px;
   height: 600px;
   background-repeat: no-repeat;
   background-position: center center;
   background-size: 100% 100%;
   border: 1px solid black;
-  border-radius: 10px;
   box-shadow: 0 0 0 10px rgba(0, 0, 0, 0.2);
-}
-
-.container::after {
-  position: absolute;
-  content: "";
-  top: 50%;
-  left: 50%;
-  width: 84px;
-  height: 84px;
-  transform: translate(-50%, -50%);
-  background-color: #DDD6F3;
-  background-repeat: no-repeat;
-  background-position: center center;
-  background-size: contain;
-  box-shadow: 0 0 12px 5px rgba(255, 255, 255, .5);
-  border-radius: 50%;
-  opacity: 0;
-}
-
-.container.musicCardPaused::after {
-  background-image: url("Public/images/pause-icon.svg") !important;
-  animation: hidingPauseButton 1s ease-out both;
-}
-
-.container.musicCardPlaying::after {
-  background-image: url("Public/images/play-icon.svg") !important;
-  animation: hidingPlayButton 1s ease-out both;
 }
