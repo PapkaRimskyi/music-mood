@@ -1,12 +1,11 @@
-type Props = {
-  currentTime: number,
-  duration: number,
-}
+import useCurrentSong from "../../../../../zustand/useCurrentSong/useCurrentSong.ts";
 
-function Time({ currentTime = 0, duration = 0 }: Props) {
+function Time() {
+  const currentSongInfo = useCurrentSong(state => state.currentSongInfo);
+
   return (
     <div>
-      <p className="text-sm">{Math.floor(currentTime)}s/{Math.floor(duration)}s</p>
+      <p className="text-sm">{Math.floor(currentSongInfo.time)}s/{Math.floor(currentSongInfo.duration)}s</p>
     </div>
   );
 }

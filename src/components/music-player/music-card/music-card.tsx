@@ -1,9 +1,12 @@
 import { MouseEvent, SyntheticEvent, useRef, useState } from "react";
 
+import useCurrentSong from "../../../zustand/useCurrentSong/useCurrentSong.ts";
+
 import Header from "./header/header.tsx";
 import Footer from "./footer/footer.tsx";
 
-import { DEFAULT_AUDIO_STATE, HUNDRED_PERCENT } from "../../../const/common.ts";
+import { HUNDRED_PERCENT } from "../../../const/common.ts";
+import { MusicCardContext } from "../../../const/context.ts";
 
 import { ISearch } from "../../../api/interfaces.ts";
 
@@ -15,16 +18,9 @@ type Props = {
 
 function MusicCard({ data }: Props) {
   const audioRef = useRef<HTMLAudioElement>(null);
-  const [currentAudioState, setCurrentAudioState] = useState(DEFAULT_AUDIO_STATE);
+  const currentSongInfo = useCurrentSong(state => state.currentSongInfo);
+  const updateSong = useCurrentSong(state => state.updateSong);
   const [audioLinePos, setAudioLinePos] = useState(0);
-
-  const playHandle = () => {
-    if (audioRef.current) {
-      const audioElem = audioRef.current;
-      !audioElem.paused ? audioElem.pause() : audioElem.play();
-      updateCurrentAudioState(audioElem.currentTime, undefined, !audioElem.paused);
-    }
-  }
 
   const updateAudioLinePos = (element: HTMLAudioElement) => {
     const { currentTime, duration } = element;
@@ -32,19 +28,16 @@ function MusicCard({ data }: Props) {
     setAudioLinePos(currentSongPercent);
   }
 
-  const updateCurrentAudioState = (currentTime: number, duration?: number, playState?: boolean) =>
-    setCurrentAudioState((prevState) => ({ currentTime, duration: duration || prevState.duration, playState: playState || prevState.playState }));
-
   const onTimeUpdateAudioHandler = (e: SyntheticEvent<HTMLAudioElement, Event>) => {
     const { currentTarget } = e;
-    updateCurrentAudioState(currentTarget.currentTime);
+    updateSong(currentTarget.currentTime);
     updateAudioLinePos(currentTarget);
   }
 
   const timeBarClickHandler = (e: MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
     const { left, width } = e.currentTarget.getBoundingClientRect();
-    const { duration } = currentAudioState;
+    const { duration } = currentSongInfo;
     const clickCoords = e.clientX - left;
     const newAudioLineGradientPercent = Math.floor(Math.floor(clickCoords) * HUNDRED_PERCENT / width);
     (audioRef.current as HTMLAudioElement).currentTime = duration * newAudioLineGradientPercent / HUNDRED_PERCENT;
@@ -52,21 +45,27 @@ function MusicCard({ data }: Props) {
   }
 
   return (
-    <div className={`mx-auto rounded-lg ${style.container}`} style={{ backgroundImage: `url(${data.album.cover_xl})` }} onClick={playHandle}>
+    <div className={`mx-auto rounded-lg ${style.container}`} style={{ backgroundImage: `url(${data.album.cover_xl})` }}>
       <div className="p-4 h-full flex flex-col relative rounded-md" style={{ backgroundColor: "rgba(0, 0, 0, .75)" }}>
-        <Header artistName={data.artist.name} title={data.title} link={data.link} />
+        <Header
+          artistName={data.artist.name}
+          title={data.title}
+          link={data.link}
+        />
 
         <audio
           ref={audioRef}
           className="hidden"
           src={data.preview}
           tabIndex={-1}
-          onEnded={(e) => updateCurrentAudioState(e.currentTarget.currentTime, undefined, false)}
-          onLoadedMetadata={(e) => updateCurrentAudioState(e.currentTarget.currentTime, e.currentTarget.duration)}
+          onEnded={(e) => updateSong(e.currentTarget.currentTime, undefined, false)}
+          onLoadedMetadata={(e) => updateSong(e.currentTarget.currentTime, e.currentTarget.duration)}
           onTimeUpdate={onTimeUpdateAudioHandler}
         />
 
-        <Footer currentAudioState={currentAudioState} timeBarClickHandler={timeBarClickHandler} audioLinePos={audioLinePos} />
+        <MusicCardContext.Provider value={{ audioRef, timeBarClickHandler, audioLinePos }}>
+          <Footer />
+        </MusicCardContext.Provider>
       </div>
     </div>
   );

@@ -1,16 +1,17 @@
-import useSWR from "swr";
+import { useSearchParams } from "react-router-dom"
 
+import useSWR from "swr";
 import { fetcher, FetcherArgs } from '../swr-fetcher.ts';
 
 import { ENDPOINTS } from '../endpoints.ts';
 import { ISearchResponse } from "../interfaces.ts";
 
-function useSearch(searchValue: string | null) {
-  const { data, error, isLoading } = useSWR<ISearchResponse, boolean, FetcherArgs | null>(searchValue ? { url: `${ENDPOINTS.SEARCH}`, args: { searchValue } } : null, fetcher);
+function useSearch() {
+  const [searchParams] = useSearchParams();
+  const { data, error, isLoading } = useSWR<ISearchResponse, boolean, FetcherArgs | null>({ url: `${ENDPOINTS.SEARCH}`, args: { searchValue: searchParams.get('q') as string } }, fetcher);
 
   return {
     singerData: data,
-    firstSingerData: data?.data[0],
     isError: error,
     isLoading,
   };

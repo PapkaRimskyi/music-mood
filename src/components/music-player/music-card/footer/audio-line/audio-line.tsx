@@ -1,10 +1,12 @@
-import { useRef } from "react";
+import { useContext, useRef } from "react";
 
 import { HUNDRED_PERCENT } from "../../../../../const/common.ts";
+import { MusicCardContext, TMusicCardContext } from "../../../../../const/context.ts";
 
 import style from "./style.module.css";
 
-function AudioLine({ audioLinePos, timeBarClickHandler }) {
+function AudioLine() {
+  const { audioLinePos, timeBarClickHandler } = useContext(MusicCardContext) as TMusicCardContext;
   const audioLineRef = useRef<HTMLDivElement>(null);
 
   const audioLineGradient = !audioLinePos

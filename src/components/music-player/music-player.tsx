@@ -1,18 +1,18 @@
-import { useSearchParams } from "react-router-dom";
-
 import useSearch from "../../api/useSearch/useSearch.ts";
+// import useCurrentSongIndex from "../../zustand/createSongIndexSlice.ts";
+import useCurrentSong from "../../zustand/useCurrentSong/useCurrentSong.ts";
 
 import MusicCard from "./music-card/music-card.tsx";
 
-import { ISearch } from "../../api/interfaces.ts";
+import { ISearchResponse } from "../../api/interfaces.ts";
 
 function MusicPlayer() {
-  const [searchParams] = useSearchParams();
-  const { singerData, firstSingerData, isError, isLoading } = useSearch(searchParams.get('q'));
+  const { singerData, isLoading } = useSearch();
+  const currentSongIndex = useCurrentSong(state => state.currentSongIndex);
 
   return (
     <div>
-      {!isLoading && <MusicCard data={firstSingerData as ISearch} />}
+      {!isLoading && <MusicCard data={(singerData as ISearchResponse).data[currentSongIndex]} />}
     </div>
   );
 }
