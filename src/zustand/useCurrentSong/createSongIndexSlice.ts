@@ -3,17 +3,17 @@ import { StateCreator } from 'zustand';
 import { ISearch } from "../../api/interfaces.ts";
 
 export interface ISongIndex {
-  currentSongIndex: number,
-  changeCurrentSong: (newSong: number) => void,
-  isCurrentSongFirst: () => boolean,
+  currentSongId: number | null,
+  isCurrentSongFirst: (data: ISearch[]) => boolean,
+  changeCurrentSong: (currentSong: number) => void,
   isCurrentSongLast: (data: ISearch[]) => boolean,
 }
 
 const createSongIndexSlice: StateCreator<ISongIndex> = (set, get) => ({
-  currentSongIndex: 0,
-  isCurrentSongFirst: () => get().currentSongIndex === 0,
-  isCurrentSongLast: (data: ISearch[]) => get().currentSongIndex === data.length,
-  changeCurrentSong: (newSong: number) => set({ currentSongIndex: newSong }),
+  currentSongId: null,
+  isCurrentSongFirst: (data: ISearch[]) => data.findIndex((item) => Number(item.id) === get().currentSongId) === 0,
+  changeCurrentSong: (currentSong: number) => set({ currentSongId: currentSong }),
+  isCurrentSongLast: (data: ISearch[]) => data.findIndex((item) => Number(item.id) === get().currentSongId) === data.length,
 });
 
 export default createSongIndexSlice;

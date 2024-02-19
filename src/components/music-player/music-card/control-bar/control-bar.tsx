@@ -9,15 +9,16 @@ import style from './style.module.css';
 
 function ControlBar() {
   const { audioRef } = useContext(MusicCardContext) as TMusicCardContext;
-  const { singerData } = useSearch();
-  const currentSongIndex = useCurrentSong(state => state.currentSongIndex);
+  const { audioData } = useSearch();
+  const currentSongId = useCurrentSong(state => state.currentSongId) as number;
   const isCurrentSongFirst = useCurrentSong(state => state.isCurrentSongFirst);
   const isCurrentSongLast = useCurrentSong(state => state.isCurrentSongLast);
   const changeCurrentSong = useCurrentSong(state => state.changeCurrentSong);
 
   const previousSong = () => {
-    if (!isCurrentSongFirst()) {
-      changeCurrentSong(currentSongIndex - 1);
+    if (!isCurrentSongFirst(audioData)) {
+      const nextSongId = audioData[audioData.findIndex((item) => Number(item.id) === currentSongId) - 1].id;
+      changeCurrentSong(Number(nextSongId));
     }
   }
 
@@ -29,8 +30,9 @@ function ControlBar() {
   }
 
   const nextSong = () => {
-    if (singerData?.data && !isCurrentSongLast(singerData.data)) {
-      changeCurrentSong(currentSongIndex + 1);
+    if (!isCurrentSongLast(audioData)) {
+      const nextSongId = audioData[audioData.findIndex((item) => Number(item.id) === currentSongId) + 1].id;
+      changeCurrentSong(Number(nextSongId));
     }
   }
 

@@ -1,18 +1,23 @@
 import useSearch from "../../api/useSearch/useSearch.ts";
-// import useCurrentSongIndex from "../../zustand/createSongIndexSlice.ts";
+
 import useCurrentSong from "../../zustand/useCurrentSong/useCurrentSong.ts";
 
 import MusicCard from "./music-card/music-card.tsx";
-
-import { ISearchResponse } from "../../api/interfaces.ts";
+import AudioSidebar from "./audio-sidebar/audio-sidebar.tsx";
 
 function MusicPlayer() {
-  const { singerData, isLoading } = useSearch();
-  const currentSongIndex = useCurrentSong(state => state.currentSongIndex);
+  const { audioData, isLoading } = useSearch();
+  const currentSongId = useCurrentSong(state => state.currentSongId);
+  const currentAudio = audioData.find((item) => Number(item.id) === currentSongId);
 
   return (
     <div>
-      {!isLoading && <MusicCard data={(singerData as ISearchResponse).data[currentSongIndex]} />}
+      {!isLoading && currentAudio && (
+        <div className="mx-auto w-8/12 flex justify-between">
+          <MusicCard data={currentAudio} />
+          <AudioSidebar />
+        </div>
+      )}
     </div>
   );
 }
