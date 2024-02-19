@@ -5,8 +5,6 @@ import useCurrentSong from "../../../../zustand/useCurrentSong/useCurrentSong.ts
 
 import { MusicCardContext, TMusicCardContext } from "../../../../const/context.ts";
 
-import style from './style.module.css';
-
 function ControlBar() {
   const { audioRef } = useContext(MusicCardContext) as TMusicCardContext;
   const { audioData } = useSearch();
@@ -14,6 +12,10 @@ function ControlBar() {
   const isCurrentSongFirst = useCurrentSong(state => state.isCurrentSongFirst);
   const isCurrentSongLast = useCurrentSong(state => state.isCurrentSongLast);
   const changeCurrentSong = useCurrentSong(state => state.changeCurrentSong);
+
+  const isPrevButtonDisabled = isCurrentSongFirst(audioData);
+  const isNextButtonDisabled = isCurrentSongLast(audioData);
+  const playButtonBgClass = !audioRef.current?.paused ? 'bg-pause-image' : 'bg-play-image';
 
   const previousSong = () => {
     if (!isCurrentSongFirst(audioData)) {
@@ -37,15 +39,29 @@ function ControlBar() {
   }
 
   return (
-    <div className='flex items-center'>
-      <div className={`flex ${style.controlButtonContainer}`}>
-        <button className={`bg-no-repeat bg-center bg-contain ${style.controlButton}`} type="button" onClick={previousSong} />
+    <div className='flex items-center space-x-3'>
+      <div className="flex">
+        <button
+          className="w-4 h-4 bg-previous-image bg-no-repeat bg-center bg-contain hover:opacity-80 active:opacity-60 disabled:opacity-10 disabled:cursor-not-allowed"
+          type="button"
+          disabled={isPrevButtonDisabled}
+          onClick={previousSong}
+        />
       </div>
-      <div className={`flex mx-3 ${style.controlButtonContainer}`}>
-        <button className={`bg-no-repeat bg-center bg-contain ${style.controlButton}`} type="button" onClick={playHandle} />
+      <div className="flex">
+        <button
+          className={`w-4 h-4 ${playButtonBgClass} bg-no-repeat bg-center bg-contain hover:opacity-80 active:opacity-60`}
+          type="button"
+          onClick={playHandle}
+        />
       </div>
-      <div className={`flex ${style.controlButtonContainer}`}>
-        <button className={`bg-no-repeat bg-center bg-contain ${style.controlButton}`} type="button" onClick={nextSong} />
+      <div className="flex">
+        <button
+          className="w-4 h-4 bg-next-image bg-no-repeat bg-center bg-contain hover:opacity-80 active:opacity-60 disabled:opacity-10 disabled:cursor-not-allowed"
+          type="button"
+          onClick={nextSong}
+          disabled={isNextButtonDisabled}
+        />
       </div>
     </div>
   );

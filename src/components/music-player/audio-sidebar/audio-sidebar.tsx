@@ -3,7 +3,7 @@ import RepeatAndLoopController from "./repeat-and-loop-controller/repeat-and-loo
 
 function AudioSidebar() {
   return (
-    <div className="w-1/3">
+    <div className="mt-5 lg:mt-0 w-full lg:w-1/3">
       <AudioList />
       <RepeatAndLoopController />
     </div>

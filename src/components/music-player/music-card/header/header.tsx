@@ -10,7 +10,7 @@ const Header = memo(({ title, link, artistName }: Props) => {
   return (
     <div>
       <a
-        className="block overflow-hidden text-ellipsis whitespace-nowrap swiper-no-swiping underline cursor-pointer"
+        className="block overflow-hidden text-ellipsis whitespace-nowrap swiper-no-swiping underline cursor-pointer hover:opacity-80 active:opacity-60"
         href={link}
         onClick={(e) => e.stopPropagation()}
         title={`${artistName} - ${title}`}

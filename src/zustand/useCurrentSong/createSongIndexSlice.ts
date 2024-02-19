@@ -13,7 +13,7 @@ const createSongIndexSlice: StateCreator<ISongIndex> = (set, get) => ({
   currentSongId: null,
   isCurrentSongFirst: (data: ISearch[]) => data.findIndex((item) => Number(item.id) === get().currentSongId) === 0,
   changeCurrentSong: (currentSong: number) => set({ currentSongId: currentSong }),
-  isCurrentSongLast: (data: ISearch[]) => data.findIndex((item) => Number(item.id) === get().currentSongId) === data.length,
+  isCurrentSongLast: (data: ISearch[]) => data.findIndex((item) => Number(item.id) === get().currentSongId) === data.length - 1,
 });
 
 export default createSongIndexSlice;
