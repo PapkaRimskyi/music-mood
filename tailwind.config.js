@@ -6,6 +6,10 @@ export default {
   theme: {
     extend: {
       backgroundImage: {
+        'previous-image': "url('Public/images/previous.svg')",
+        'play-image': "url('Public/images/play.svg')",
+        'pause-image': "url('Public/images/pause.svg')",
+        'next-image': "url('Public/images/next.svg')",
         'loop-image': "url('Public/images/loop.svg')",
         'shuffle-image': "url('Public/images/shuffle.svg')",
       }

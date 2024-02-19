@@ -13,7 +13,7 @@ function MusicPlayer() {
   return (
     <div>
       {!isLoading && currentAudio && (
-        <div className="mx-auto w-8/12 flex justify-between">
+        <div className="mx-auto w-full lg:w-10/12 xl:w-8/12 flex flex-col lg:flex-row justify-between">
           <MusicCard data={currentAudio} />
           <AudioSidebar />
         </div>
