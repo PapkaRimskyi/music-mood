@@ -22,9 +22,9 @@ function SearchInput() {
   }
 
   return (
-    <div className="w-1/2 mx-auto">
+    <div className="mx-auto w-full lg:w-2/3 xl:w-1/2">
       <input
-        className={`w-full py-4 px-5 rounded-lg ${style.input}`}
+        className={`w-full py-4 px-5 rounded-lg disabled:opacity-30 ${style.input}`}
         type="text"
         value={inputValue}
         onChange={onInputChange}
