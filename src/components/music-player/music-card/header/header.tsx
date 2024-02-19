@@ -1,10 +1,12 @@
-import {ISearch} from "../../../../api/interfaces.ts";
+import { memo } from "react";
+
+import { ISearch } from "../../../../api/interfaces.ts";
 
 type Props = {
   artistName: ISearch["artist"]['name'],
 } & Pick<ISearch, "title" | "link">;
 
-function Header({ title, link, artistName }: Props) {
+const Header = memo(({ title, link, artistName }: Props) => {
   return (
     <div>
       <a
@@ -18,6 +20,6 @@ function Header({ title, link, artistName }: Props) {
       </a>
     </div>
   );
-}
+})
 
 export default Header;

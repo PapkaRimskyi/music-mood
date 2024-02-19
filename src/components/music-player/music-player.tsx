@@ -1,18 +1,23 @@
-import { useSearchParams } from "react-router-dom";
-
 import useSearch from "../../api/useSearch/useSearch.ts";
 
-import MusicCard from "./music-card/music-card.tsx";
+import useCurrentSong from "../../zustand/useCurrentSong/useCurrentSong.ts";
 
-import { ISearch } from "../../api/interfaces.ts";
+import MusicCard from "./music-card/music-card.tsx";
+import AudioSidebar from "./audio-sidebar/audio-sidebar.tsx";
 
 function MusicPlayer() {
-  const [searchParams] = useSearchParams();
-  const { singerData, firstSingerData, isError, isLoading } = useSearch(searchParams.get('q'));
+  const { audioData, isLoading } = useSearch();
+  const currentSongId = useCurrentSong(state => state.currentSongId);
+  const currentAudio = audioData.find((item) => Number(item.id) === currentSongId);
 
   return (
     <div>
-      {!isLoading && <MusicCard data={firstSingerData as ISearch} />}
+      {!isLoading && currentAudio && (
+        <div className="mx-auto w-8/12 flex justify-between">
+          <MusicCard data={currentAudio} />
+          <AudioSidebar />
+        </div>
+      )}
     </div>
   );
 }
