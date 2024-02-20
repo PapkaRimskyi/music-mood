@@ -1,7 +1,7 @@
-import useCurrentSong from "../../../../../zustand/useCurrentSong/useCurrentSong.ts";
+import useZustandStore from "@zustand/zustandStore.ts";
 
 function Time() {
-  const currentSongInfo = useCurrentSong(state => state.currentSongInfo);
+  const currentSongInfo = useZustandStore(state => state.currentSongInfo);
 
   return (
     <div>

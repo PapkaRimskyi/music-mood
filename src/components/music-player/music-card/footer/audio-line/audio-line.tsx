@@ -1,7 +1,7 @@
 import { useContext, useRef } from "react";
 
-import { HUNDRED_PERCENT } from "../../../../../const/common.ts";
-import { MusicCardContext, TMusicCardContext } from "../../../../../const/context.ts";
+import { HUNDRED_PERCENT } from "@src/const/common.ts";
+import { MusicCardContext, TMusicCardContext } from "@src/const/context.ts";
 
 import style from "./style.module.css";
 

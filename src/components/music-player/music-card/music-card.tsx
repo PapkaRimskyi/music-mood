@@ -1,26 +1,31 @@
 import { MouseEvent, SyntheticEvent, useRef, useState } from "react";
 
-import useCurrentSong from "../../../zustand/useCurrentSong/useCurrentSong.ts";
+import useZustandStore from "@zustand/zustandStore.ts";
 
 import Header from "./header/header.tsx";
 import Footer from "./footer/footer.tsx";
 
-import { HUNDRED_PERCENT } from "../../../const/common.ts";
-import { MusicCardContext } from "../../../const/context.ts";
+import { HUNDRED_PERCENT } from "@src/const/common.ts";
+import { MusicCardContext } from "@src/const/context.ts";
 
-import { ISearch } from "../../../api/interfaces.ts";
+import { ISearch } from "@src/api/interfaces.ts";
 
 import style from './style.module.css';
 
 type Props = {
-  data: ISearch;
+  audioData: ISearch[],
+  currentAudio: ISearch;
 }
 
-function MusicCard({ data }: Props) {
+function MusicCard({ audioData, currentAudio }: Props) {
   const audioRef = useRef<HTMLAudioElement>(null);
-  const currentSongInfo = useCurrentSong(state => state.currentSongInfo);
-  const updateSong = useCurrentSong(state => state.updateSong);
   const [audioLinePos, setAudioLinePos] = useState(0);
+
+  const currentSongInfo = useZustandStore(state => state.currentSongInfo);
+  const updateSong = useZustandStore(state => state.updateSong);
+  const isRepeating = useZustandStore(state => state.isRepeating);
+  const isShuffled = useZustandStore(state => state.isBeingShuffled);
+  const setNextSongId = useZustandStore(state => state.setNextSongId);
 
   const updateAudioLinePos = (element: HTMLAudioElement) => {
     const { currentTime, duration } = element;
@@ -34,6 +39,14 @@ function MusicCard({ data }: Props) {
     updateAudioLinePos(currentTarget);
   }
 
+  const onEndedAudioHandler = (e: SyntheticEvent<HTMLAudioElement, Event>) => {
+    if (isShuffled) {
+      setNextSongId(audioData);
+    } else {
+      updateSong(e.currentTarget.currentTime, undefined, false);
+    }
+  }
+
   const timeBarClickHandler = (e: MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
     const { left, width } = e.currentTarget.getBoundingClientRect();
@@ -45,20 +58,22 @@ function MusicCard({ data }: Props) {
   }
 
   return (
-    <div className={`rounded-lg w-full lg:w-3/5 ${style.container}`} style={{ backgroundImage: `url(${data.album.cover_xl})` }}>
+    <div className={`w-full lg:w-3/5 rounded-lg bg-no-repeat bg-center ${style.container}`} style={{ backgroundImage: `url(${currentAudio.album.cover_xl})` }}>
       <div className="p-4 h-full flex flex-col relative rounded-md" style={{ backgroundColor: "rgba(0, 0, 0, .75)" }}>
         <Header
-          artistName={data.artist.name}
-          title={data.title}
-          link={data.link}
+          artistName={currentAudio.artist.name}
+          title={currentAudio.title}
+          link={currentAudio.link}
         />
 
         <audio
           ref={audioRef}
           className="hidden"
-          src={data.preview}
+          src={currentAudio.preview}
+          loop={isRepeating}
+          autoPlay={isShuffled}
           tabIndex={-1}
-          onEnded={(e) => updateSong(e.currentTarget.currentTime, undefined, false)}
+          onEnded={onEndedAudioHandler}
           onLoadedMetadata={(e) => updateSong(e.currentTarget.currentTime, e.currentTarget.duration)}
           onTimeUpdate={onTimeUpdateAudioHandler}
         />

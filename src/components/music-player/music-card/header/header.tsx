@@ -1,6 +1,6 @@
 import { memo } from "react";
 
-import { ISearch } from "../../../../api/interfaces.ts";
+import { ISearch } from "@src/api/interfaces.ts";
 
 type Props = {
   artistName: ISearch["artist"]['name'],

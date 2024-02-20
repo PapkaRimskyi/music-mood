@@ -17,9 +17,19 @@ export default defineConfig({
     open: true,
   },
   resolve: {
-    alias: {
-      "Public": path.resolve(__dirname, 'public'),
-      "Src": path.resolve(__dirname, 'src'),
-    }
+    alias: [
+      {
+        find: "@public", replacement: path.resolve(__dirname, "./public"),
+      },
+      {
+        find: "@src", replacement: path.resolve(__dirname, "./src"),
+      },
+      {
+        find: "@components", replacement: path.resolve(__dirname, "./src/components"),
+      },
+      {
+        find: "@zustand", replacement: path.resolve(__dirname, "./src/zustand"),
+      },
+    ]
   }
-})
+});

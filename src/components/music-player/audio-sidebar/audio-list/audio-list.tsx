@@ -1,18 +1,22 @@
 import { useEffect, useRef } from "react";
-import useSearch from "../../../../api/useSearch/useSearch.ts";
 
-import useCurrentSong from "../../../../zustand/useCurrentSong/useCurrentSong.ts";
+import useSearch from "@src/api/useSearch/useSearch.ts";
+
+import useZustandStore from "@zustand/zustandStore.ts";
 
 import Item from "./item/item.tsx";
 
 function AudioList() {
   const activeAudioRef = useRef<HTMLLIElement>(null);
+
   const { audioData } = useSearch();
-  const currentSongId = useCurrentSong(state => state.currentSongId);
+
+  const currentSongId = useZustandStore(state => state.currentSongId);
+  const shuffledList = useZustandStore(state => state.shuffledList);
 
   useEffect(() => {
     activeAudioRef?.current?.scrollIntoView({ behavior: "smooth" });
-  }, [currentSongId]);
+  }, [currentSongId, shuffledList]);
 
   return (
     <div className="max-h-80 overflow-auto rounded-lg">

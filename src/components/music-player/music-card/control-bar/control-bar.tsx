@@ -1,42 +1,33 @@
 import { useContext } from "react";
 
-import useSearch from "../../../../api/useSearch/useSearch.ts";
-import useCurrentSong from "../../../../zustand/useCurrentSong/useCurrentSong.ts";
+import useSearch from "@src/api/useSearch/useSearch.ts";
+import useZustandStore from "@zustand/zustandStore.ts";
 
-import { MusicCardContext, TMusicCardContext } from "../../../../const/context.ts";
+import { MusicCardContext, TMusicCardContext } from "@src/const/context.ts";
 
 function ControlBar() {
   const { audioRef } = useContext(MusicCardContext) as TMusicCardContext;
   const { audioData } = useSearch();
-  const currentSongId = useCurrentSong(state => state.currentSongId) as number;
-  const isCurrentSongFirst = useCurrentSong(state => state.isCurrentSongFirst);
-  const isCurrentSongLast = useCurrentSong(state => state.isCurrentSongLast);
-  const changeCurrentSong = useCurrentSong(state => state.changeCurrentSong);
+
+  const isCurrentSongFirst = useZustandStore(state => state.isCurrentSongFirst);
+  const setPreviousSongId = useZustandStore(state => state.setPreviousSongId);
+  const isCurrentSongLast = useZustandStore(state => state.isCurrentSongLast);
+  const setNextSongId = useZustandStore(state => state.setNextSongId);
 
   const isPrevButtonDisabled = isCurrentSongFirst(audioData);
   const isNextButtonDisabled = isCurrentSongLast(audioData);
   const playButtonBgClass = !audioRef.current?.paused ? 'bg-pause-image' : 'bg-play-image';
 
-  const previousSong = () => {
-    if (!isCurrentSongFirst(audioData)) {
-      const nextSongId = audioData[audioData.findIndex((item) => Number(item.id) === currentSongId) - 1].id;
-      changeCurrentSong(Number(nextSongId));
-    }
-  }
+  const previousSongHandler = () => setPreviousSongId(audioData);
 
-  const playHandle = () => {
+  const playSongHandle = () => {
     if (audioRef.current) {
       const audioElem = audioRef.current;
       !audioElem.paused ? audioElem.pause() : audioElem.play();
     }
   }
 
-  const nextSong = () => {
-    if (!isCurrentSongLast(audioData)) {
-      const nextSongId = audioData[audioData.findIndex((item) => Number(item.id) === currentSongId) + 1].id;
-      changeCurrentSong(Number(nextSongId));
-    }
-  }
+  const nextSongHandler = () => setNextSongId(audioData);
 
   return (
     <div className='flex items-center space-x-3'>
@@ -45,21 +36,21 @@ function ControlBar() {
           className="w-4 h-4 bg-previous-image bg-no-repeat bg-center bg-contain hover:opacity-80 active:opacity-60 disabled:opacity-10 disabled:cursor-not-allowed"
           type="button"
           disabled={isPrevButtonDisabled}
-          onClick={previousSong}
+          onClick={previousSongHandler}
         />
       </div>
       <div className="flex">
         <button
           className={`w-4 h-4 ${playButtonBgClass} bg-no-repeat bg-center bg-contain hover:opacity-80 active:opacity-60`}
           type="button"
-          onClick={playHandle}
+          onClick={playSongHandle}
         />
       </div>
       <div className="flex">
         <button
           className="w-4 h-4 bg-next-image bg-no-repeat bg-center bg-contain hover:opacity-80 active:opacity-60 disabled:opacity-10 disabled:cursor-not-allowed"
           type="button"
-          onClick={nextSong}
+          onClick={nextSongHandler}
           disabled={isNextButtonDisabled}
         />
       </div>
