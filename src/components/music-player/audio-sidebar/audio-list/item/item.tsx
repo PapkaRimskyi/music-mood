@@ -1,8 +1,8 @@
 import { memo, KeyboardEvent } from 'react';
 
-import { ISearch } from "../../../../../api/interfaces.ts";
+import { ISearch } from "@src/api/interfaces.ts";
 
-import useCurrentSong from "../../../../../zustand/useCurrentSong/useCurrentSong.ts";
+import useZustandStore from "@zustand/zustandStore.ts";
 
 type Props = {
   data: ISearch,
@@ -11,7 +11,8 @@ type Props = {
 }
 
 const Item = memo(({ data, activeAudioRef, isActive }: Props) => {
-  const changeCurrentSong = useCurrentSong(state => state.changeCurrentSong);
+  const changeCurrentSong = useZustandStore(state => state.changeCurrentSong);
+
   const bgItemColor = isActive ? 'bg-neonPink' : 'bg-neonDarkPurple';
 
   const handleAudioClick = (id: number) => {

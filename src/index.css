@@ -5,7 +5,7 @@
 @font-face {
   font-family: "Clip";
   font-weight: 400;
-  src: url("Public/fonts/clip.regular.ttf") format("truetype");
+  src: url("@public/fonts/clip.regular.ttf") format("truetype");
 }
 
 :root {
