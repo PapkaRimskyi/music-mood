@@ -1,6 +1,6 @@
 import { useContext } from "react";
 
-import useSearch from "@src/api/useSearch/useSearch.ts";
+import useSearch from "@src/api/swr-api/useSearch/useSearch.ts";
 import useZustandStore from "@zustand/zustandStore.ts";
 
 import { MusicCardContext, TMusicCardContext } from "@src/const/context.ts";
