@@ -1,22 +1,23 @@
 import { useEffect, useRef } from "react";
 
-import useSearch from "@src/api/useSearch/useSearch.ts";
+import useSearch from "@src/api/swr-api/useSearch/useSearch.ts";
 
 import useZustandStore from "@zustand/zustandStore.ts";
 
 import Item from "./item/item.tsx";
+import LoadMore from "@components/music-player/audio-sidebar/audio-list/load-more/load-more.tsx";
 
 function AudioList() {
   const activeAudioRef = useRef<HTMLLIElement>(null);
 
-  const { audioData } = useSearch();
+  const { audioData, next } = useSearch();
 
   const currentSongId = useZustandStore(state => state.currentSongId);
-  const shuffledList = useZustandStore(state => state.shuffledList);
+  const isBeingShuffled = useZustandStore(state => state.isBeingShuffled);
 
   useEffect(() => {
     activeAudioRef?.current?.scrollIntoView({ behavior: "smooth" });
-  }, [currentSongId, shuffledList]);
+  }, [currentSongId, isBeingShuffled]);
 
   return (
     <div className="max-h-80 overflow-auto rounded-lg">
@@ -29,6 +30,7 @@ function AudioList() {
             isActive={Number(item.id) === currentSongId}
           />
         ))}
+        {next && !isBeingShuffled && <LoadMore />}
       </ul>
     </div>
   );

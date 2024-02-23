@@ -1,4 +1,4 @@
-import useSearch from "@src/api/useSearch/useSearch.ts";
+import useSearch from "@src/api/swr-api/useSearch/useSearch.ts";
 
 import useZustandStore from "@zustand/zustandStore.ts";
 
