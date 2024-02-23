@@ -1,5 +1,3 @@
-import concatSongDataIntoOneArrMiddleware from "@src/api/swr-api/useSearch/middleware.ts";
-
-const swrOptions = { revalidateOnFocus: false, revalidateFirstPage: false, use: [concatSongDataIntoOneArrMiddleware] };
+const swrOptions = { revalidateOnFocus: false, revalidateFirstPage: false };
 
 export default swrOptions;

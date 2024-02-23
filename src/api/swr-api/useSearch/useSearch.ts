@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import { useSearchParams } from "react-router-dom";
 
 import useSWRInfinite from "swr/infinite";
@@ -17,6 +18,18 @@ function useSearch() {
   const searchParamsString = searchParams.toString();
 
   const { data, error, isLoading, setSize, size, isValidating } = useSWRInfinite(getKey, fetcher, { ...swrOptions, onSuccess: onSuccessSwrRequest });
+
+  const modifiedAudioData = useMemo(() => {
+    if (!data) {
+      return data;
+    }
+    const concatedAudioData = data.reduce((prev, current) => prev.concat(current.data), [] as ISearch[]);
+    return {
+      data: concatedAudioData,
+      next: data[data.length - 1].next,
+      total: data[data.length - 1].total,
+    }
+  }, [data]);
 
   const changeCurrentSong = useZustandStore(state => state.changeCurrentSong);
   const currentSongId = useZustandStore(state => state.currentSongId);
@@ -39,9 +52,9 @@ function useSearch() {
   }
 
   return {
-    audioData: shuffledList || data && data?.data as ISearch[],
-    total: data && data?.total || 0,
-    next: data && data?.next || '',
+    audioData: shuffledList || modifiedAudioData?.data || [],
+    total: modifiedAudioData?.total || 0,
+    next: modifiedAudioData?.next,
     isError: error,
     isLoading,
     isValidating,
