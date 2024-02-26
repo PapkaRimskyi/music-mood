@@ -9,19 +9,21 @@ import { IRepeatAndLoop } from "@zustand/slices/repeat-and-loop/createRepeatAndL
 type SharedSlice = ISongIndex & IRepeatAndLoop;
 
 export interface ICreateSongIndexAndShuffleList {
-  generateShuffleList: (data: ISearch[]) => void,
+  generateShuffleList: (data: ISearch[] | undefined) => void,
 }
 
 const createSongIndexAndShuffleList: StateCreator<SharedSlice, [], [], ICreateSongIndexAndShuffleList> = (_, get) => ({
-  generateShuffleList: (data: ISearch[]) => {
-    const numberCol = data.map((_, index) => index);
-    const shuffledCol = data.map(() => {
-      const randomNumber = getRandomNumber(0, numberCol.length);
-      const randomIndex = numberCol.splice(randomNumber, 1)[0];
-      return data[randomIndex];
-    });
-    get().changeCurrentSong(Number(shuffledCol[0].id));
-    get().setShuffledList(shuffledCol);
+  generateShuffleList: (data: ISearch[] | undefined) => {
+    if (data) {
+      const numberCol = data.map((_, index) => index);
+      const shuffledCol = data.map(() => {
+        const randomNumber = getRandomNumber(0, numberCol.length);
+        const randomIndex = numberCol.splice(randomNumber, 1)[0];
+        return data[randomIndex];
+      });
+      get().changeCurrentSong(Number(shuffledCol[0].id));
+      get().setShuffledList(shuffledCol);
+    }
   }
 });
 

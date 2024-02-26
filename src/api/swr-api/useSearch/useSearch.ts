@@ -17,7 +17,11 @@ function useSearch() {
 
   const searchParamsString = searchParams.toString();
 
-  const { data, error, isLoading, setSize, size, isValidating } = useSWRInfinite(getKey, fetcher, { ...swrOptions, onSuccess: onSuccessSwrRequest });
+  const { data, error, isLoading, setSize, size, isValidating, mutate } = useSWRInfinite(getKey, fetcher, { ...swrOptions, onSuccess: onSuccessSwrRequest });
+
+  const changeCurrentSong = useZustandStore(state => state.changeCurrentSong);
+  const currentSongId = useZustandStore(state => state.currentSongId);
+  const shuffledList = useZustandStore(state => state.shuffledList);
 
   const modifiedAudioData = useMemo(() => {
     if (!data) {
@@ -30,10 +34,6 @@ function useSearch() {
       total: data[data.length - 1].total,
     }
   }, [data]);
-
-  const changeCurrentSong = useZustandStore(state => state.changeCurrentSong);
-  const currentSongId = useZustandStore(state => state.currentSongId);
-  const shuffledList = useZustandStore(state => state.shuffledList);
 
   function getKey(pageIndex: number, previousPageData: ISearchResponse | null) {
     const nextSongIndex = new URLSearchParams(previousPageData?.next).get('index');
@@ -52,7 +52,7 @@ function useSearch() {
   }
 
   return {
-    audioData: shuffledList || modifiedAudioData?.data || [],
+    audioData: shuffledList || modifiedAudioData?.data,
     total: modifiedAudioData?.total || 0,
     next: modifiedAudioData?.next,
     isError: error,
@@ -60,6 +60,7 @@ function useSearch() {
     isValidating,
     setSize,
     size,
+    mutate,
   };
 }
 
