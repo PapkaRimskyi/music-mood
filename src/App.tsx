@@ -6,9 +6,11 @@ function App() {
   return (
     <div className="container mx-auto px-2">
       <Header />
-      <Outlet />
+      <main>
+        <Outlet />
+      </main>
     </div>
   );
 }
 
-export default App
+export default App;

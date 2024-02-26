@@ -22,6 +22,7 @@ export default {
       neonDarkerPurple: "#7d12ff",
       neonPink: "#E26EE5",
       neonDarkPurple: "rgba(32, 5, 137, .5)",
+      neonDarkBlue: "#27005D",
     },
   },
   plugins: [],

@@ -5,15 +5,15 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import axios from 'axios';
 
 import App from './App.tsx';
-import MusicPlayer from "./components/music-player/music-player.tsx";
-import Main from "./components/main/main.tsx";
+import ResultPage from "./pages/result-page/result-page.tsx";
+import MainPage from "./pages/index-page/main-page.tsx";
 
-import loadersCol from "./routes-loaders.ts";
+import routerLoaders from "./routes-loaders.ts";
 
 import { BASE_API_URL } from "./api/endpoints.ts";
 import { ROUTES } from "./const/routes.ts";
 
-import './index.css'
+import './index.css';
 
 axios.defaults.baseURL = BASE_API_URL;
 // @ts-expect-error Will be added lately
@@ -23,17 +23,17 @@ axios.defaults.headers.get["X-RapidAPI-Host"] = __RAPID_API_HOST__;
 
 const router = createBrowserRouter([
   {
-    path: ROUTES.MAIN,
+    path: ROUTES.INDEX,
     element: <App />,
     children: [
       {
-        path: ROUTES.MAIN,
-        element: <Main />,
+        path: ROUTES.INDEX,
+        element: <MainPage />,
       },
       {
-        path: ROUTES.SEARCH_RESULT,
-        element: <MusicPlayer />,
-        loader: loadersCol[ROUTES.SEARCH_RESULT].loader,
+        path: ROUTES.RESULT,
+        element: <ResultPage />,
+        loader: routerLoaders[ROUTES.RESULT].loader,
       }
     ],
   }
