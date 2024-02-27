@@ -1,4 +1,4 @@
-import { MouseEvent, SyntheticEvent, useRef, useState } from "react";
+import { MouseEvent, SyntheticEvent, useEffect, useRef, useState } from "react";
 
 import useZustandStore from "@zustand/zustandStore.ts";
 
@@ -21,11 +21,20 @@ function AudioCard({ audioData, currentAudio }: Props) {
   const audioRef = useRef<HTMLAudioElement>(null);
   const [audioLinePos, setAudioLinePos] = useState(0);
 
-  const currentSongInfo = useZustandStore(state => state.currentSongInfo);
-  const updateSong = useZustandStore(state => state.updateSong);
+  const currentAudioInfo = useZustandStore(state => state.currentAudioInfo);
+  const updateCurrentAudioInfo = useZustandStore(state => state.updateCurrentAudioInfo);
+  const currentAudioPlayState = useZustandStore(state => state.currentAudioPlayState);
+  const updateCurrentAudioPlayState = useZustandStore(state => state.updateCurrentAudioPlayState);
   const isRepeating = useZustandStore(state => state.isRepeating);
   const isShuffled = useZustandStore(state => state.isBeingShuffled);
-  const setNextSongId = useZustandStore(state => state.setNextSongId);
+  const setNextAudioId = useZustandStore(state => state.setNextAudioId);
+
+  useEffect(() => {
+    if (audioRef.current) {
+      const audioElem = audioRef.current;
+      currentAudioPlayState ? audioElem.play() : audioElem.pause();
+    }
+  }, [currentAudioPlayState, audioRef.current]);
 
   const updateAudioLinePos = (element: HTMLAudioElement) => {
     const { currentTime, duration } = element;
@@ -35,22 +44,23 @@ function AudioCard({ audioData, currentAudio }: Props) {
 
   const onTimeUpdateAudioHandler = (e: SyntheticEvent<HTMLAudioElement, Event>) => {
     const { currentTarget } = e;
-    updateSong(currentTarget.currentTime);
+    updateCurrentAudioInfo(currentTarget.currentTime);
     updateAudioLinePos(currentTarget);
   }
 
   const onEndedAudioHandler = (e: SyntheticEvent<HTMLAudioElement, Event>) => {
     if (isShuffled) {
-      setNextSongId(audioData);
+      setNextAudioId(audioData);
     } else {
-      updateSong(e.currentTarget.currentTime, undefined, false);
+      updateCurrentAudioInfo(e.currentTarget.currentTime, undefined);
+      updateCurrentAudioPlayState();
     }
   }
 
   const timeBarClickHandler = (e: MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
     const { left, width } = e.currentTarget.getBoundingClientRect();
-    const { duration } = currentSongInfo;
+    const { duration } = currentAudioInfo;
     const clickCoords = e.clientX - left;
     const newAudioLineGradientPercent = Math.floor(Math.floor(clickCoords) * HUNDRED_PERCENT / width);
     (audioRef.current as HTMLAudioElement).currentTime = duration * newAudioLineGradientPercent / HUNDRED_PERCENT;
@@ -74,11 +84,15 @@ function AudioCard({ audioData, currentAudio }: Props) {
           autoPlay={isShuffled}
           tabIndex={-1}
           onEnded={onEndedAudioHandler}
-          onLoadedMetadata={(e) => updateSong(e.currentTarget.currentTime, e.currentTarget.duration)}
+          onLoadedMetadata={(e) => {
+            setAudioLinePos(0);
+            updateCurrentAudioInfo(e.currentTarget.currentTime, e.currentTarget.duration);
+            updateCurrentAudioPlayState(false);
+          }}
           onTimeUpdate={onTimeUpdateAudioHandler}
         />
 
-        <MusicCardContext.Provider value={{ audioRef, timeBarClickHandler, audioLinePos }}>
+        <MusicCardContext.Provider value={{ timeBarClickHandler, audioLinePos }}>
           <AudioFooter />
         </MusicCardContext.Provider>
       </div>

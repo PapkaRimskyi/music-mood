@@ -1,34 +1,26 @@
-import { useContext } from "react";
-
 import useSearch from "@src/api/swr-api/useSearch/useSearch.ts";
 
 import useZustandStore from "@zustand/zustandStore.ts";
 
-import { MusicCardContext, TMusicCardContext } from "@src/const/context.ts";
-
 function AudioControlBar() {
-  const { audioRef } = useContext(MusicCardContext) as TMusicCardContext;
   const { audioData } = useSearch();
 
-  const isCurrentSongFirst = useZustandStore(state => state.isCurrentSongFirst);
-  const setPreviousSongId = useZustandStore(state => state.setPreviousSongId);
-  const isCurrentSongLast = useZustandStore(state => state.isCurrentSongLast);
-  const setNextSongId = useZustandStore(state => state.setNextSongId);
+  const currentAudioPlayState = useZustandStore(state => state.currentAudioPlayState);
+  const updateCurrentAudioPlayState = useZustandStore(state => state.updateCurrentAudioPlayState);
+  const isCurrentAudioFirst = useZustandStore(state => state.isCurrentAudioFirst);
+  const setPreviousAudioId = useZustandStore(state => state.setPreviousAudioId);
+  const isCurrentAudioLast = useZustandStore(state => state.isCurrentAudioLast);
+  const setNextAudioId = useZustandStore(state => state.setNextAudioId);
 
-  const isPrevButtonDisabled = isCurrentSongFirst(audioData);
-  const isNextButtonDisabled = isCurrentSongLast(audioData);
-  const playButtonBgClass = !audioRef.current?.paused ? 'bg-pause-image' : 'bg-play-image';
+  const isPrevAudioButtonDisabled = isCurrentAudioFirst(audioData);
+  const isNextAudioButtonDisabled = isCurrentAudioLast(audioData);
+  const playAudioButtonBgClass = currentAudioPlayState ? 'bg-pause-image' : 'bg-play-image';
 
-  const previousSongHandler = () => setPreviousSongId(audioData);
+  const prevAudioButtonHandler = () => setPreviousAudioId(audioData);
 
-  const playSongHandle = () => {
-    if (audioRef.current) {
-      const audioElem = audioRef.current;
-      !audioElem.paused ? audioElem.pause() : audioElem.play();
-    }
-  }
+  const playAudioButtonHandler = () => updateCurrentAudioPlayState();
 
-  const nextSongHandler = () => setNextSongId(audioData);
+  const nextAudioButtonHandler = () => setNextAudioId(audioData);
 
   return (
     <div className='flex items-center space-x-3'>
@@ -36,23 +28,23 @@ function AudioControlBar() {
         <button
           className="w-4 h-4 bg-previous-image bg-no-repeat bg-center bg-contain hover:opacity-80 active:opacity-60 disabled:opacity-10 disabled:cursor-not-allowed"
           type="button"
-          disabled={isPrevButtonDisabled}
-          onClick={previousSongHandler}
+          disabled={isPrevAudioButtonDisabled}
+          onClick={prevAudioButtonHandler}
         />
       </div>
       <div className="flex">
         <button
-          className={`w-4 h-4 ${playButtonBgClass} bg-no-repeat bg-center bg-contain hover:opacity-80 active:opacity-60`}
+          className={`w-4 h-4 ${playAudioButtonBgClass} bg-no-repeat bg-center bg-contain hover:opacity-80 active:opacity-60`}
           type="button"
-          onClick={playSongHandle}
+          onClick={playAudioButtonHandler}
         />
       </div>
       <div className="flex">
         <button
           className="w-4 h-4 bg-next-image bg-no-repeat bg-center bg-contain hover:opacity-80 active:opacity-60 disabled:opacity-10 disabled:cursor-not-allowed"
           type="button"
-          onClick={nextSongHandler}
-          disabled={isNextButtonDisabled}
+          onClick={nextAudioButtonHandler}
+          disabled={isNextAudioButtonDisabled}
         />
       </div>
     </div>

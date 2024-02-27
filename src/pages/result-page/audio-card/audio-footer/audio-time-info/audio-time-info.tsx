@@ -1,11 +1,11 @@
 import useZustandStore from "@zustand/zustandStore.ts";
 
 function AudioTimeInfo() {
-  const currentSongInfo = useZustandStore(state => state.currentSongInfo);
+  const currentAudioInfo = useZustandStore(state => state.currentAudioInfo);
 
   return (
     <div>
-      <p className="text-sm">{Math.floor(currentSongInfo.time)}s/{Math.floor(currentSongInfo.duration)}s</p>
+      <p className="text-sm">{Math.floor(currentAudioInfo.time)}s/{Math.floor(currentAudioInfo.duration)}s</p>
     </div>
   );
 }

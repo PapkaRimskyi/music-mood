@@ -1,18 +1,18 @@
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
 
-import createSongInfoSlice, { ISongInfo } from "@zustand/slices/song/createSongInfo.ts";
-import createSongIndexSlice, { ISongIndex } from "@zustand/slices/song/createSongIndex.ts";
+import createAudioInfoSlice, { IAudioInfo } from "@zustand/slices/audio/createAudioInfo.ts";
+import createAudioIndexSlice, { IAudioIndex } from "@zustand/slices/audio/createAudioIndex.ts";
 import createRepeatAndLoopSlice, { IRepeatAndLoop } from "@zustand/slices/repeat-and-loop/createRepeatAndLoop.ts";
-import createSongIndexAndShuffleList, { ICreateSongIndexAndShuffleList } from "@zustand/multiple-updates/song-index-and-shuffle-list.ts";
+import createAudioIndexAndShuffledList, { ICreateAudioIndexAndShuffledList } from "@zustand/multiple-updates/audio-index-and-shuffle-list.ts";
 
-type TUseZustandStore = ISongInfo & ISongIndex & IRepeatAndLoop & ICreateSongIndexAndShuffleList;
+type TUseZustandStore = IAudioInfo & IAudioIndex & IRepeatAndLoop & ICreateAudioIndexAndShuffledList;
 
 const useZustandStore = create<TUseZustandStore>()(devtools((...a) => ({
-  ...createSongInfoSlice(...a),
-  ...createSongIndexSlice(...a),
+  ...createAudioInfoSlice(...a),
+  ...createAudioIndexSlice(...a),
   ...createRepeatAndLoopSlice(...a),
-  ...createSongIndexAndShuffleList(...a),
+  ...createAudioIndexAndShuffledList(...a),
 })));
 
 export default useZustandStore;

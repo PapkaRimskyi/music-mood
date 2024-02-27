@@ -11,18 +11,18 @@ type Props = {
 }
 
 const AudioItem = memo(({ data, activeAudioRef, isActive }: Props) => {
-  const changeCurrentSong = useZustandStore(state => state.changeCurrentSong);
+  const changeCurrentAudio = useZustandStore(state => state.changeCurrentAudio);
 
   const bgItemColor = isActive ? 'bg-neonPink' : 'bg-neonDarkPurple';
 
   const handleAudioClick = (id: number) => {
-    changeCurrentSong(id);
+    changeCurrentAudio(id);
   }
 
   const handleAudioEnterPress = (e: KeyboardEvent<HTMLLIElement>, id: number) => {
     const { code } = e;
     if (code === 'Enter') {
-      changeCurrentSong(id);
+      changeCurrentAudio(id);
     }
   }
 
