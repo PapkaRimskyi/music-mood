@@ -13,16 +13,16 @@ import { ISearch } from "@src/api/interfaces.ts";
 function ResultPage() {
   const { audioData, isLoading, isError, mutate } = useSearch();
 
-  const currentSongId = useZustandStore(state => state.currentSongId);
-  const changeCurrentSong = useZustandStore(state => state.changeCurrentSong);
+  const currentAudioId = useZustandStore(state => state.currentAudioId);
+  const changeCurrentAudio = useZustandStore(state => state.changeCurrentAudio);
 
   useEffect(() => {
     return () => {
-      changeCurrentSong(null);
+      changeCurrentAudio(null);
     }
   }, []);
 
-  const currentAudio = audioData?.find((item) => Number(item.id) === currentSongId);
+  const currentAudio = audioData?.find((item) => Number(item.id) === currentAudioId);
 
   return (
     <section>

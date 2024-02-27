@@ -19,8 +19,8 @@ function useSearch() {
 
   const { data, error, isLoading, setSize, size, isValidating, mutate } = useSWRInfinite(getKey, fetcher, { ...swrOptions, onSuccess: onSuccessSwrRequest });
 
-  const changeCurrentSong = useZustandStore(state => state.changeCurrentSong);
-  const currentSongId = useZustandStore(state => state.currentSongId);
+  const currentAudioId = useZustandStore(state => state.currentAudioId);
+  const changeCurrentAudio = useZustandStore(state => state.changeCurrentAudio);
   const shuffledList = useZustandStore(state => state.shuffledList);
 
   const modifiedAudioData = useMemo(() => {
@@ -46,8 +46,8 @@ function useSearch() {
   }
 
   function onSuccessSwrRequest(resData: ISearchResponse[]) {
-    if (!currentSongId) {
-      changeCurrentSong(Number(resData[0].data[0].id));
+    if (!currentAudioId) {
+      changeCurrentAudio(Number(resData[0].data[0].id));
     }
   }
 

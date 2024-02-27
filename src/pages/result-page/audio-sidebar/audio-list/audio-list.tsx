@@ -12,12 +12,12 @@ function AudioList() {
 
   const { audioData, next } = useSearch();
 
-  const currentSongId = useZustandStore(state => state.currentSongId);
+  const currentAudioId = useZustandStore(state => state.currentAudioId);
   const isBeingShuffled = useZustandStore(state => state.isBeingShuffled);
 
   useEffect(() => {
     activeAudioRef?.current?.scrollIntoView({ behavior: "smooth" });
-  }, [currentSongId, isBeingShuffled]);
+  }, [currentAudioId, isBeingShuffled]);
 
   return (
     <div className="max-h-80 overflow-auto rounded-lg">
@@ -27,7 +27,7 @@ function AudioList() {
             key={item.id}
             data={item}
             activeAudioRef={activeAudioRef}
-            isActive={Number(item.id) === currentSongId}
+            isActive={Number(item.id) === currentAudioId}
           />
         ))}
         {next && !isBeingShuffled && <LoadMoreAudio />}

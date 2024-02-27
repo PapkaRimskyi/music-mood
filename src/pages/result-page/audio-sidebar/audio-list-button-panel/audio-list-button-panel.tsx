@@ -11,12 +11,12 @@ function AudioListButtonPanel() {
   const changeRepeatingFlag = useZustandStore(state => state.changeRepeatingFlag);
   const isBeingShuffled = useZustandStore(state => state.isBeingShuffled);
   const setShuffledList = useZustandStore(state => state.setShuffledList);
-  const generateShuffleList = useZustandStore(state => state.generateShuffleList);
+  const generateShuffledList = useZustandStore(state => state.generateShuffledList);
   const changeShuffleFlag = useZustandStore(state => state.changeShuffleFlag);
 
   function shuffleButtonHandler() {
     if (!isBeingShuffled) {
-      generateShuffleList(audioData);
+      generateShuffledList(audioData);
     } else {
       setShuffledList(null);
     }
