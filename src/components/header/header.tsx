@@ -1,4 +1,8 @@
+import { Link } from "react-router-dom";
+
 import ApiLink from "./api-link/api-link.tsx";
+
+import { ROUTES } from "@src/const/routes.ts";
 
 function Header() {
   return (
@@ -10,7 +14,7 @@ function Header() {
         <nav>
           <ul>
             <li>
-              <a href="">Favorites</a>
+              <Link to={ROUTES.FAVORITES}>Favorites</Link>
             </li>
           </ul>
         </nav>

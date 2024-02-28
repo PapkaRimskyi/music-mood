@@ -34,7 +34,7 @@ function AudioCard({ audioData, currentAudio }: Props) {
       const audioElem = audioRef.current;
       currentAudioPlayState ? audioElem.play() : audioElem.pause();
     }
-  }, [currentAudioPlayState, audioRef.current]);
+  }, [currentAudioPlayState, isShuffled, audioRef.current]);
 
   const updateAudioLinePos = (element: HTMLAudioElement) => {
     const { currentTime, duration } = element;
@@ -58,7 +58,6 @@ function AudioCard({ audioData, currentAudio }: Props) {
   }
 
   const timeBarClickHandler = (e: MouseEvent<HTMLDivElement>) => {
-    e.stopPropagation();
     const { left, width } = e.currentTarget.getBoundingClientRect();
     const { duration } = currentAudioInfo;
     const clickCoords = e.clientX - left;
@@ -68,13 +67,9 @@ function AudioCard({ audioData, currentAudio }: Props) {
   }
 
   return (
-    <div className={`w-full lg:w-3/5 h-[600px] rounded-lg bg-no-repeat bg-center ${style.container}`} style={{ backgroundImage: `url(${currentAudio.album.cover_xl})` }}>
+    <div className={`w-full lg:w-3/5 h-[400px] sm:h-[600px] rounded-lg bg-no-repeat bg-center ${style.container}`} style={{ backgroundImage: `url(${currentAudio.album.cover_xl})` }}>
       <div className="p-4 h-full flex flex-col relative rounded-md" style={{ backgroundColor: "rgba(0, 0, 0, .75)" }}>
-        <AudioHeader
-          artistName={currentAudio.artist.name}
-          title={currentAudio.title}
-          link={currentAudio.link}
-        />
+        <AudioHeader currentAudio={currentAudio} />
 
         <audio
           ref={audioRef}
@@ -87,7 +82,7 @@ function AudioCard({ audioData, currentAudio }: Props) {
           onLoadedMetadata={(e) => {
             setAudioLinePos(0);
             updateCurrentAudioInfo(e.currentTarget.currentTime, e.currentTarget.duration);
-            updateCurrentAudioPlayState(false);
+            currentAudioPlayState && audioRef.current?.play();
           }}
           onTimeUpdate={onTimeUpdateAudioHandler}
         />

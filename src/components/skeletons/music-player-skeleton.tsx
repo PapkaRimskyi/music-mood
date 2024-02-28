@@ -7,7 +7,7 @@ const skeletonArray = new Array(SKELETON_ELEMENTS).fill(1);
 function MusicPlayerSkeleton() {
   return (
     <div className="mx-auto w-full lg:w-10/12 xl:w-8/12 flex flex-col lg:flex-row justify-between">
-      <div className={`relative w-full lg:w-3/5 h-[600px] bg-neonDarkBlue rounded-lg overflow-hidden ${style.bgPlayerGradient}`}>
+      <div className={`relative w-full lg:w-3/5 h-[400px] sm:h-[600px] bg-neonDarkBlue rounded-lg overflow-hidden ${style.bgPlayerGradient}`}>
         <div className="p-4 h-full flex flex-col relative rounded-md" />
       </div>
       <div className="mt-5 lg:mt-0 w-full lg:w-1/3">

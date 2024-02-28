@@ -1,23 +1,50 @@
 import { memo } from "react";
 
+import useZustandStore from "@zustand/zustandStore.ts";
+
+import FavoriteButton from "@components/buttons/favorite-button/favorite-button.tsx";
+
 import { ISearch } from "@src/api/interfaces.ts";
 
 type Props = {
-  artistName: ISearch["artist"]['name'],
-} & Pick<ISearch, "title" | "link">;
+  currentAudio: ISearch,
+};
 
-const AudioHeader = memo(({ title, link, artistName }: Props) => {
+const AudioHeader = memo(({ currentAudio }: Props) => {
+  const favoriteList = useZustandStore(state => state.favoriteList);
+  const addToFavoriteList = useZustandStore(state => state.addToFavoriteList);
+  const removeFromFavoriteList = useZustandStore(state => state.removeFromFavoriteList);
+
+  const isFavorite = favoriteList.has(Number(currentAudio.id));
+
+  const { artist, title, link } = currentAudio;
+
+  const favoriteButtonHandler = () => {
+    if (!isFavorite) {
+      addToFavoriteList(currentAudio);
+    } else {
+      removeFromFavoriteList(Number(currentAudio.id));
+    }
+  }
+
   return (
-    <div>
-      <a
-        className="block overflow-hidden text-ellipsis whitespace-nowrap swiper-no-swiping underline cursor-pointer hover:opacity-80 active:opacity-60"
-        href={link}
-        onClick={(e) => e.stopPropagation()}
-        title={`${artistName} - ${title}`}
-        target="_blank"
-      >
-        {artistName} - {title}
-      </a>
+    <div className="flex justify-between">
+      <div className="w-10/12">
+        <a
+          className="block overflow-hidden text-ellipsis whitespace-nowrap swiper-no-swiping underline cursor-pointer hover:opacity-80 active:opacity-60"
+          href={link}
+          title={`${artist.name} - ${title}`}
+          target="_blank"
+        >
+          {artist.name} - {title}
+        </a>
+      </div>
+      <div>
+        <FavoriteButton
+          isActive={isFavorite}
+          onClickHandler={favoriteButtonHandler}
+        />
+      </div>
     </div>
   );
 })

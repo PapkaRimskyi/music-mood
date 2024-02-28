@@ -14,6 +14,7 @@ function AudioList() {
 
   const currentAudioId = useZustandStore(state => state.currentAudioId);
   const isBeingShuffled = useZustandStore(state => state.isBeingShuffled);
+  const favoriteList = useZustandStore(state => state.favoriteList);
 
   useEffect(() => {
     activeAudioRef?.current?.scrollIntoView({ behavior: "smooth" });
@@ -27,7 +28,8 @@ function AudioList() {
             key={item.id}
             data={item}
             activeAudioRef={activeAudioRef}
-            isActive={Number(item.id) === currentAudioId}
+            isPlaying={Number(item.id) === currentAudioId}
+            isFavorite={favoriteList.has(Number(item.id))}
           />
         ))}
         {next && !isBeingShuffled && <LoadMoreAudio />}
