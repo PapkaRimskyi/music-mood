@@ -12,6 +12,7 @@ export default {
         'next-image': "url('@public/images/next.svg')",
         'loop-image': "url('@public/images/loop.svg')",
         'shuffle-image': "url('@public/images/shuffle.svg')",
+        'basket-image': "url('@public/images/basket.svg')",
       }
     },
     colors: {

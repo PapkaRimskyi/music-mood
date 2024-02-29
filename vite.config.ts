@@ -28,6 +28,15 @@ export default defineConfig({
         find: "@components", replacement: path.resolve(__dirname, "./src/components"),
       },
       {
+        find: "@index-page", replacement: path.resolve(__dirname, "./src/pages/index-page"),
+      },
+      {
+        find: "@result-page", replacement: path.resolve(__dirname, "./src/pages/result-page"),
+      },
+      {
+        find: "@favorite-page", replacement: path.resolve(__dirname, "./src/pages/favorite-page"),
+      },
+      {
         find: "@zustand", replacement: path.resolve(__dirname, "./src/zustand"),
       },
     ]

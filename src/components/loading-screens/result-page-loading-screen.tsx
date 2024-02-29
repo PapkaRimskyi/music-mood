@@ -1,7 +1,7 @@
 import { KeyedMutator } from "swr";
 
 import MusicPlayerSkeleton from "@components/skeletons/music-player-skeleton.tsx";
-import RetryAgainButton from "@components/buttons/retry-again-button/retry-again-button.tsx";
+import ButtonConstructor from "@components/buttons/button-constructor/button-constructor.tsx";
 
 import { ISearch, ISearchResponse } from "@src/api/interfaces.ts";
 
@@ -21,7 +21,11 @@ function ResultPageLoadingScreen({ audioData, isLoading, isError, mutate }: Prop
     <div className="relative">
       <MusicPlayerSkeleton />
       {isInitRequestEndedWithError
-        && <RetryAgainButton text="Error! Retry again" onClickHandler={retryButtonHandler} />
+        && <ButtonConstructor
+          extraClassName="absolute p-2 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-neonDarkerPurple hover:bg-neonPurple active:opacity-30 rounded-lg"
+          onClickHandler={retryButtonHandler}
+          children="Error! Retry again"
+        />
       }
     </div>
   );

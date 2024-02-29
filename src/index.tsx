@@ -7,7 +7,7 @@ import axios from 'axios';
 import App from './App.tsx';
 import ResultPage from "./pages/result-page/result-page.tsx";
 import MainPage from "./pages/index-page/main-page.tsx";
-import FavoritesPage from "@src/pages/favorites-page/favorites-page.tsx";
+import FavoritePage from "@favorite-page/favorite-page.tsx";
 
 import routerLoaders from "./routes-loaders.ts";
 
@@ -38,7 +38,7 @@ const router = createBrowserRouter([
       },
       {
         path: ROUTES.FAVORITES,
-        element: <FavoritesPage />,
+        element: <FavoritePage />,
       }
     ],
   }

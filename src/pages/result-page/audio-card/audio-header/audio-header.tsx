@@ -2,7 +2,8 @@ import { memo } from "react";
 
 import useZustandStore from "@zustand/zustandStore.ts";
 
-import FavoriteButton from "@components/buttons/favorite-button/favorite-button.tsx";
+import ButtonConstructor from "@components/buttons/button-constructor/button-constructor.tsx";
+import FavoriteIcon from "@src/icons/favorite-icon.tsx";
 
 import { ISearch } from "@src/api/interfaces.ts";
 
@@ -40,10 +41,9 @@ const AudioHeader = memo(({ currentAudio }: Props) => {
         </a>
       </div>
       <div>
-        <FavoriteButton
-          isActive={isFavorite}
-          onClickHandler={favoriteButtonHandler}
-        />
+        <ButtonConstructor extraClassName="w-5" onClickHandler={favoriteButtonHandler} title="Add to favorite list">
+          <FavoriteIcon className={isFavorite ? "fill-neonPink" : "fill-neonDarkerPurple"} />
+        </ButtonConstructor>
       </div>
     </div>
   );
