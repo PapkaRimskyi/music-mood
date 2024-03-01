@@ -1,10 +1,12 @@
+import { memo } from "react";
+
 import { ISearch } from "@src/api/interfaces.ts";
 
 type Props = {
   data: ISearch,
 };
 
-function FavoriteInfo({ data: { title, artist, album, link, rank } }: Props) {
+const FavoriteInfo = memo(({ data: { title, artist, album, link, rank } }: Props) => {
   return (
     <div className="space-y-2">
       <div className="flex items-center space-x-3">
@@ -33,6 +35,6 @@ function FavoriteInfo({ data: { title, artist, album, link, rank } }: Props) {
       </div>
     </div>
   );
-}
+});
 
 export default FavoriteInfo;

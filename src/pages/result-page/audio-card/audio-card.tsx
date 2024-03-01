@@ -5,6 +5,8 @@ import useZustandStore from "@zustand/zustandStore.ts";
 import AudioHeader from "@src/pages/result-page/audio-card/audio-header/audio-header.tsx";
 import AudioFooter from "@src/pages/result-page/audio-card/audio-footer/audio-footer.tsx";
 
+import { calculateAudioTimelineByClick, calculateAudioTimelineByTimeUpdate } from "@src/helpers/calculate-audio-timeline.ts";
+
 import { HUNDRED_PERCENT } from "@src/const/common.ts";
 import { MusicCardContext } from "@src/const/context.ts";
 
@@ -37,8 +39,7 @@ function AudioCard({ audioData, currentAudio }: Props) {
   }, [currentAudioPlayState, isShuffled, audioRef.current]);
 
   const updateAudioLinePos = (element: HTMLAudioElement) => {
-    const { currentTime, duration } = element;
-    const currentSongPercent = Math.floor((Math.floor(currentTime) * HUNDRED_PERCENT) / Math.floor(duration));
+    const currentSongPercent = calculateAudioTimelineByTimeUpdate(element);
     setAudioLinePos(currentSongPercent);
   }
 
@@ -60,8 +61,7 @@ function AudioCard({ audioData, currentAudio }: Props) {
   const timeBarClickHandler = (e: MouseEvent<HTMLDivElement>) => {
     const { left, width } = e.currentTarget.getBoundingClientRect();
     const { duration } = currentAudioInfo;
-    const clickCoords = e.clientX - left;
-    const newAudioLineGradientPercent = Math.floor(Math.floor(clickCoords) * HUNDRED_PERCENT / width);
+    const newAudioLineGradientPercent = calculateAudioTimelineByClick(left, width, e.clientX);
     (audioRef.current as HTMLAudioElement).currentTime = duration * newAudioLineGradientPercent / HUNDRED_PERCENT;
     setAudioLinePos(newAudioLineGradientPercent);
   }
