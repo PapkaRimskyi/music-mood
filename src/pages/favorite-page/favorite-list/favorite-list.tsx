@@ -17,7 +17,7 @@ function FavoriteList() {
   const maxElem = page * FAVORITE_ON_PAGE;
 
   return (
-    <div className="space-y-10">
+    <div className="space-y-10 pb-4">
       <ul className="space-y-4 divide-y-2 divide-neonPurple">
         {favoriteList.slice(0, maxElem).map((favorite) => (
           <FavoriteItem

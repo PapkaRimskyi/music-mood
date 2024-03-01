@@ -33,7 +33,10 @@ const FavoriteItem = memo(({ data, isPlaying, setCurrentPlayingAudio }: Props) =
 
   const onPlayClickHandler = () => setCurrentPlayingAudio(!isPlaying ? Number(data.id) : null);
 
-  const onDeleteClickHandler = () => removeFromFavoriteList(Number(data.id));
+  const onDeleteClickHandler = () => {
+    audioRef.current?.pause();
+    removeFromFavoriteList(Number(data.id))
+  };
 
   const onTimeUpdateHandler = (e: SyntheticEvent<HTMLAudioElement, Event>) => {
     if (!isDragging) {
@@ -54,7 +57,7 @@ const FavoriteItem = memo(({ data, isPlaying, setCurrentPlayingAudio }: Props) =
 
   return (
     <li className="flex pt-4">
-      <div className="flex flex-wrap flex-1 space-y-2">
+      <div className="flex flex-col flex-1 space-y-4">
         <FavoriteInfo data={data} />
         <FavoriteControlBar
           isPlaying={isPlaying}

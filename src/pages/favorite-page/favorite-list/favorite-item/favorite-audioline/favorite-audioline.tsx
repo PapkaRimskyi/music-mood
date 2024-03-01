@@ -52,7 +52,7 @@ function FavoriteAudioline({ audioRef, linePosition, doStateChanges, isDragging 
 
   return (
     <div
-      className={`w-10/12 bg-neonPink cursor-grab`}
+      className="w-8/12 md:w-10/12 bg-neonPink cursor-grab"
       style={{ backgroundImage: lineGradient }}
       onMouseDown={onMouseDownHandler}
       onMouseMove={onMouseMoveHandler}
