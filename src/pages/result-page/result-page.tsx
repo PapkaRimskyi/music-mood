@@ -6,7 +6,7 @@ import useZustandStore from "@zustand/zustandStore.ts";
 
 import AudioCard from "@src/pages/result-page/audio-card/audio-card.tsx";
 import AudioSidebar from "./audio-sidebar/audio-sidebar.tsx";
-import ResultPageLoadingScreen from "@components/loading-screens/result-page-loading-screen.tsx";
+import LoadingScreen from "./loading-screen/loading-screen.tsx";
 
 import { ISearch } from "@src/api/interfaces.ts";
 
@@ -31,7 +31,7 @@ function ResultPage() {
           <AudioCard audioData={audioData as ISearch[]} currentAudio={currentAudio} />
           <AudioSidebar />
         </div>
-      ) : <ResultPageLoadingScreen isLoading={isLoading} isError={Boolean(isError)} audioData={audioData} mutate={mutate} />}
+      ) : <LoadingScreen isLoading={isLoading} isError={Boolean(isError)} audioData={audioData} mutate={mutate} />}
     </section>
   );
 }
