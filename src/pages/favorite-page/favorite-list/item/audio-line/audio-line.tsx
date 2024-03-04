@@ -23,7 +23,7 @@ function AudioLine({ audioRef, linePosition, doStateChanges, isDragging }: Props
   const onMouseDownHandler = (e: MouseEvent<HTMLDivElement>) => {
     if (e.buttons === 1) {
       const newLinePosition = getNewLinePosition(e);
-      doStateChanges(true, newLinePosition)
+      doStateChanges(true, newLinePosition);
     }
   }
 
