@@ -1,22 +1,15 @@
-import { Link } from "react-router-dom";
-
-import ApiLink from "./api-link/api-link.tsx";
-
-import { ROUTES } from "@src/const/routes.ts";
+import HomeLink from "@components/header/home-link/home-link.tsx";
+import NavigationList from "@components/header/navigation-list/navigation-list.tsx";
 
 function Header() {
   return (
     <header className="mb-6 pt-6 w-100 flex justify-between items-center">
       <div className="w-20">
-        <ApiLink />
+        <HomeLink />
       </div>
       <div>
         <nav>
-          <ul>
-            <li>
-              <Link to={ROUTES.FAVORITES}>Favorites</Link>
-            </li>
-          </ul>
+          <NavigationList />
         </nav>
       </div>
     </header>

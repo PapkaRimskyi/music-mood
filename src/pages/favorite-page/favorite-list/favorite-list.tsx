@@ -1,7 +1,7 @@
 import { useState } from "react";
 
-import FavoriteItem from "@favorite-page/favorite-list/favorite-item/favorite-item.tsx";
-import FavoriteLoadMore from "@favorite-page/favorite-list/favorite-item/favorite-load-more/favorite-load-more.tsx";
+import FavoriteItem from "@favorite-page/favorite-list/item/favorite-item.tsx";
+import LoadMore from "@favorite-page/favorite-list/item/load-more/load-more.tsx";
 
 import { ISearch } from "@src/api/interfaces.ts";
 import { FAVORITE_ON_PAGE } from "@src/const/common.ts";
@@ -29,7 +29,7 @@ function FavoriteList({ list }: Props) {
           />
         ))}
       </ul>
-      {page < maxPage && <FavoriteLoadMore setPage={setPage} />}
+      {page < maxPage && <LoadMore setPage={setPage} />}
     </div>
   );
 }
