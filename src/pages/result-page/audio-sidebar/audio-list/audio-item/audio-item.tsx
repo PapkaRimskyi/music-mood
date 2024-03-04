@@ -7,13 +7,15 @@ import useZustandStore from "@zustand/zustandStore.ts";
 type Props = {
   data: ISearch,
   activeAudioRef: React.RefObject<HTMLLIElement>,
-  isActive: boolean,
+  isPlaying: boolean,
+  isFavorite: boolean,
 }
 
-const AudioItem = memo(({ data, activeAudioRef, isActive }: Props) => {
+const AudioItem = memo(({ data, activeAudioRef, isPlaying, isFavorite }: Props) => {
   const changeCurrentAudio = useZustandStore(state => state.changeCurrentAudio);
 
-  const bgItemColor = isActive ? 'bg-neonPink' : 'bg-neonDarkPurple';
+  const bgItemColor = isPlaying ? 'bg-neonPink' : 'bg-neonDarkPurple';
+  const paragraphUnderline = isFavorite ? 'underline' : '';
 
   const handleAudioClick = (id: number) => {
     changeCurrentAudio(id);
@@ -28,13 +30,13 @@ const AudioItem = memo(({ data, activeAudioRef, isActive }: Props) => {
 
   return (
     <li
-      ref={isActive ? activeAudioRef : null}
+      ref={isPlaying ? activeAudioRef : null}
       className={`border-b-2 ${bgItemColor} hover:bg-neonPurple active:opacity-30 border-b-neonDarkerPurple cursor-pointer`}
       onClick={() => handleAudioClick(Number(data.id))}
       onKeyUp={(e) => handleAudioEnterPress(e, Number(data.id))}
       tabIndex={0}
     >
-      <p title={data.title} className="p-2 text-ellipsis whitespace-nowrap overflow-hidden">{data.title}</p>
+      <p title={data.title} className={`p-2 text-ellipsis whitespace-nowrap ${paragraphUnderline} overflow-hidden`}>{data.title}</p>
     </li>
   );
 });

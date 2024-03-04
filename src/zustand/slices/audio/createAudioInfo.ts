@@ -9,11 +9,11 @@ export interface IAudioInfo {
   updateCurrentAudioPlayState: (newPlayState?: boolean) => void,
 }
 
-const createAudioInfo: StateCreator<IAudioInfo> = (set, get) => ({
+const createAudioInfo: StateCreator<IAudioInfo, [["zustand/devtools", never]]> = (set, get) => ({
   currentAudioInfo: { ...DEFAULT_AUDIO_STATE },
-  updateCurrentAudioInfo: (time: number, duration?: number) => set(({ currentAudioInfo }) => ({ currentAudioInfo: { time, duration: duration || currentAudioInfo.duration }  })),
+  updateCurrentAudioInfo: (time: number, duration?: number) => set(({ currentAudioInfo }) => ({ currentAudioInfo: { time, duration: duration || currentAudioInfo.duration }  }), false, "updateCurrentAudioInfo"),
   currentAudioPlayState: false,
-  updateCurrentAudioPlayState: (newPlayState?: boolean) => set({ currentAudioPlayState: newPlayState !== undefined ? newPlayState : !get().currentAudioPlayState }),
+  updateCurrentAudioPlayState: (newPlayState?: boolean) => set({ currentAudioPlayState: newPlayState !== undefined ? newPlayState : !get().currentAudioPlayState }, false, "updateCurrentAudioPlayState"),
 })
 
 export default createAudioInfo;

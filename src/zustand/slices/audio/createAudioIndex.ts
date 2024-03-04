@@ -13,21 +13,21 @@ export interface IAudioIndex {
   setNextAudioId: (data: AudioDataType) => void,
 }
 
-const createAudioIndex: StateCreator<IAudioIndex> = (set, get) => ({
+const createAudioIndex: StateCreator<IAudioIndex, [["zustand/devtools", never]]> = (set, get) => ({
   currentAudioId: null,
   isCurrentAudioFirst: (data: AudioDataType) => !data ? true : data.findIndex((item) => Number(item.id) === get().currentAudioId) === 0,
   setPreviousAudioId: (data: AudioDataType) => {
     if (data && !get().isCurrentAudioFirst(data)) {
       const nextSongId = data[data.findIndex((item) => Number(item.id) === get().currentAudioId) - 1].id;
-      set({ currentAudioId: Number(nextSongId) });
+      set({ currentAudioId: Number(nextSongId) }, false, "setPreviousAudioId");
     }
   },
-  changeCurrentAudio: (currentSong: number | null) => set({ currentAudioId: currentSong }),
+  changeCurrentAudio: (currentSong: number | null) => set({ currentAudioId: currentSong }, false, "changeCurrentAudio"),
   isCurrentAudioLast: (data: AudioDataType) => !data ? true : data.findIndex((item) => Number(item.id) === get().currentAudioId) === data.length - 1,
   setNextAudioId: (data: AudioDataType) => {
     if (data && !get().isCurrentAudioLast(data)) {
       const nextSongId = data[data.findIndex((item) => Number(item.id) === get().currentAudioId) + 1].id;
-      set({ currentAudioId: Number(nextSongId) });
+      set({ currentAudioId: Number(nextSongId) }, false, "setNextAudioId");
     }
   }
 });

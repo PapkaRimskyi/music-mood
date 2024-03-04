@@ -11,13 +11,13 @@ export interface IRepeatAndLoop {
   setShuffledList: (data: ISearch[] | null) => void,
 }
 
-const createRepeatAndLoop: StateCreator<IRepeatAndLoop> = (set, get) => ({
+const createRepeatAndLoop: StateCreator<IRepeatAndLoop, [["zustand/devtools", never]]> = (set, get) => ({
   isRepeating: false,
-  changeRepeatingFlag: () => set({ isRepeating: !get().isRepeating }),
+  changeRepeatingFlag: () => set({ isRepeating: !get().isRepeating }, false, "changeRepeatingFlag"),
   isBeingShuffled: false,
-  changeShuffleFlag: () => set({ isBeingShuffled: !get().isBeingShuffled }),
+  changeShuffleFlag: () => set({ isBeingShuffled: !get().isBeingShuffled }, false, "changeShuffleFlag"),
   shuffledList: null,
-  setShuffledList: (data: ISearch[] | null) => set({ shuffledList: data }),
+  setShuffledList: (data: ISearch[] | null) => set({ shuffledList: data }, false, "setShuffledList"),
 });
 
 export default createRepeatAndLoop;
