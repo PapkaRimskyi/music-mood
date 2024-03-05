@@ -1,30 +1,53 @@
-# React + TypeScript + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# Music mood
 
-Currently, two official plugins are available:
+## Технологии
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+1. [React](https://react.dev/) + [TS](https://www.typescriptlang.org/)
+2. [SWR](https://swr.vercel.app/) - для запросов данных и кеширования
+3. [Zustand](https://zustand-demo.pmnd.rs/) - для хранения стейта приложения
+4. [TailwindCSS](https://tailwindcss.com/) - для стилизации
+5. [react-router-dom](https://reactrouter.com/en/main) - для роутинга в приложении
+6. [vite](https://vitejs.dev/) - для разработки
 
-## Expanding the ESLint configuration
+## Функционал
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+В проекте реализованы 3 страницы: главная, страница результата поиска и страница с избранными треками
 
-- Configure the top-level `parserOptions` property like this:
+1. Страница 1:
+   1. Инпут на главной странице, позволяющий вводить значения для поиска
+   2. Редирект с главной страницы на страницу /result с введенным значением поиска
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+2. Страница 2:
+   1. Скелетон, если данные загружаются
+   2. Обработка ошибки, если первичный запрос упал
+   3. Основной интерфейс: плеер слева и список доступных аудио для проигрывания справа (+ панель кнопок с режимами: зациклить текущее аудио или перемешать все аудио)
+   4. В плеере пользователь может:
+      1. Добавить/убрать аудио из списка favorites, кликнув на иконку 
+      2. Перематывать аудио, кликая на timeline дорожку 
+      3. Ставить на паузу текущее аудио
+      4. Сменить текущее аудио (предыдущее или следующее)
+   5. В меню справа (со списком доступных аудио) пользователь может:
+      1. Переключаться на конкретную композицию, кликнув по названию 
+      2. Загрузить больше композиций (+25 за каждый клик по кнопке). Если при подгрузке произошла ошибка - попросит попробовать еще раз
+   6. Под списком доступных аудио находится блок с 2 кнопками: зациклить и перемешать
+      1. Кнопка "зациклить" зацикливает текущее аудио
+      2. Кнопка "перемешать" перемешивает доступный список аудио и воспроизводит аудио по списку
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+3. Страница 3:
+   1. Карточки с избранными аудио (каждое аудио можно воспроизвести). В каждой карточке присутствует определенная информация о треке: 
+      1. Название трека
+      2. Фото исполнителя
+      3. Исполнитель
+      3. Название альбома
+      4. Рейтинг трека
+   2. Timeline аудио. Пользователь может просто кликать по области для перемотки, а может зажать ЛКМ в области timeline и перетаскивать текущее положение линии. Трек будет продолжать играть, пока пользователь не отпустит ЛКМ. После этого аудио начнет играть с той позиции, где пользователь отпустил ЛКМ
+   3. Кнопки "играть" и "удалить".
+      1. Кнопка "играть" включает/ставит на паузу аудио
+      2. Кнопка "удалить" удаляет аудио из списка избранных
+
+
+## Команды
+````
+npm run dev - запуск проекта в режиме dev
+````

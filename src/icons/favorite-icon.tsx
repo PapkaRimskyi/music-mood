@@ -1,8 +1,6 @@
-type Props = {
-  className?: string,
-}
+import { TDefaultIconProps } from "@src/icons/type.ts";
 
-function FavoriteIcon({ className = "" }: Props) {
+function FavoriteIcon({ className = "" }: TDefaultIconProps) {
   return (
     <svg className={className} fill="#000000" width="100%" viewBox="0 0 32 32" enableBackground="new 0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg">
       <g id="love">

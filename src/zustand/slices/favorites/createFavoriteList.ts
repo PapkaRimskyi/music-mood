@@ -1,4 +1,7 @@
+import superjson from 'superjson';
+
 import { StateCreator } from "zustand";
+import { PersistOptions, PersistStorage } from "zustand/middleware";
 
 import { ISearch } from "@src/api/interfaces.ts";
 
@@ -7,6 +10,8 @@ export interface IFavoriteList {
   addToFavoriteList: (data: ISearch) => void,
   removeFromFavoriteList: (id: number) => void,
 }
+
+type TPersistStorageValue = Pick<IFavoriteList, 'favoriteList'>;
 
 const createFavoriteList: StateCreator<IFavoriteList, [["zustand/devtools", never]]> = (set, get) => ({
   favoriteList: new Map<number, ISearch>(),
@@ -18,4 +23,22 @@ const createFavoriteList: StateCreator<IFavoriteList, [["zustand/devtools", neve
   },
 });
 
-export default  createFavoriteList;
+const favoriteListPersistStorage: PersistStorage<TPersistStorageValue> = {
+  getItem: (name) => {
+    const str = localStorage.getItem(name);
+    if (!str) return null;
+    return superjson.parse(str);
+  },
+  setItem: (name, newValue) => {
+    localStorage.setItem(name, superjson.stringify(newValue));
+  },
+  removeItem: (name) => localStorage.removeItem(name),
+}
+
+export const favoriteListPersistOptions: PersistOptions<IFavoriteList, TPersistStorageValue> = {
+  name: "favorite-list",
+  storage: favoriteListPersistStorage,
+  partialize: (state) => ({ favoriteList: state.favoriteList }),
+}
+
+export default createFavoriteList;
