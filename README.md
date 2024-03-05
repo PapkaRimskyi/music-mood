@@ -5,20 +5,20 @@
 <br/>
 Для корректной работы приложению потребуются ключи: <b>RAPID_API_KEY</b> и <b>RAPID_API_HOST</b>. Ключи необходимо поместить в файл <b>.env</b>, который должен лежать в корне проекта 
 <br/>
-[Инструкция по началу работы с API](https://rapidapi.com/blog/deezer-api-with-java-python-php-ruby-javascript-examples/)
+<a href="https://rapidapi.com/blog/deezer-api-with-java-python-php-ruby-javascript-examples/" target="_blank">Инструкция по началу работы с API</a>
 <br/>
-[DeezerAPI](https://rapidapi.com/deezerdevs/api/deezer-1)
+<a href="https://rapidapi.com/deezerdevs/api/deezer-1" target="_blank">DeezerAPI</a>
 <br/>
 ❗❗❗
 
 ## Технологии
 
-1. [React](https://react.dev/) + [TS](https://www.typescriptlang.org/)
-2. [SWR](https://swr.vercel.app/) - для запросов данных и кеширования
-3. [Zustand](https://zustand-demo.pmnd.rs/) - для хранения стейта приложения
-4. [TailwindCSS](https://tailwindcss.com/) - для стилизации
-5. [react-router-dom](https://reactrouter.com/en/main) - для роутинга в приложении
-6. [vite](https://vitejs.dev/) - для разработки
+1. <a href="https://react.dev/" target="_blank">React</a> + <a href="https://www.typescriptlang.org/" target="_blank">TS</a>
+2. <a href="https://swr.vercel.app/" target="_blank">SWR</a> - для запросов данных и кеширования
+3. <a href="https://zustand-demo.pmnd.rs/" target="_blank">Zustand</a> - для хранения стейта приложения
+4. <a href="https://tailwindcss.com/" target="_blank">TailwindCSS</a> - для стилизации
+5. <a href="https://reactrouter.com/en/main" target="_blank">react-router-dom</a> - для роутинга в приложении
+6. <a href="https://vitejs.dev/" target="_blank">vite</a> - для разработки
 
 ## Функционал
 
