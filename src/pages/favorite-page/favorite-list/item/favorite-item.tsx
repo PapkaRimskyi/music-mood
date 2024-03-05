@@ -73,6 +73,7 @@ const FavoriteItem = memo(({ data, isPlaying, setCurrentPlayingAudio }: Props) =
         </ControlBar>
       </div>
       <audio
+        preload="metadata"
         ref={audioRef}
         src={data.preview}
         onTimeUpdate={onTimeUpdateHandler}

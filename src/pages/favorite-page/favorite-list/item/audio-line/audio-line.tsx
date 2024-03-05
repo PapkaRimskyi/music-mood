@@ -1,4 +1,4 @@
-import { MouseEvent, useCallback } from "react";
+import { MouseEvent, useCallback, useEffect, useRef } from "react";
 
 import { calculateAudioTimelineByClick } from "@src/helpers/calculate-audio-timeline.ts";
 import calculateAudioLineGradient from "@src/helpers/calculate-audio-line-gradient.ts";
@@ -14,27 +14,56 @@ type Props = {
 
 function AudioLine({ audioRef, linePosition, doStateChanges, isDragging }: Props) {
   const lineGradient = calculateAudioLineGradient(linePosition);
+  const lineRef = useRef<HTMLDivElement>(null);
 
-  const getNewLinePosition = useCallback((e: MouseEvent<HTMLDivElement>) => {
-    const { left, width } = e.currentTarget.getBoundingClientRect();
-    return calculateAudioTimelineByClick(left, width, e.clientX);
+  useEffect(() => {
+    if (lineRef.current) {
+      const { current } = lineRef;
+
+      current.addEventListener("touchstart", onTouchStartHandler, { passive: false });
+      current.addEventListener("touchmove", onTouchMoveHandler, { passive: false });
+      current.addEventListener("touchend", onTouchEndHandler, { passive: false });
+
+      return () => {
+        current.removeEventListener("touchstart", onTouchStartHandler);
+        current.removeEventListener("touchmove", onTouchMoveHandler);
+        current.removeEventListener("touchend", onTouchEndHandler);
+      }
+    }
+  }, [lineRef.current]);
+
+  const getNewLinePosition = useCallback((e: MouseEvent<HTMLDivElement> | TouchEvent) => {
+    if ('touches' in e) {
+      const { left, width } = (e.currentTarget as HTMLDivElement).getBoundingClientRect();
+      if (e.type !== 'touchend') {
+        return calculateAudioTimelineByClick(left, width, e.touches[0].clientX);
+      }
+      return calculateAudioTimelineByClick(left, width, e.changedTouches[0].clientX);
+    } else {
+      const { left, width } = e.currentTarget.getBoundingClientRect();
+      return calculateAudioTimelineByClick(left, width, e.clientX);
+    }
   }, []);
+
+  const handleLineChanges = (e: MouseEvent<HTMLDivElement> | TouchEvent, draggingFlag?: boolean) => {
+    const newLinePosition = getNewLinePosition(e);
+    doStateChanges(draggingFlag, newLinePosition);
+  }
 
   const onMouseDownHandler = (e: MouseEvent<HTMLDivElement>) => {
     if (e.buttons === 1) {
-      const newLinePosition = getNewLinePosition(e);
-      doStateChanges(true, newLinePosition);
+      handleLineChanges(e, true);
     }
   }
 
   const onMouseMoveHandler = (e: MouseEvent<HTMLDivElement>) => {
     if (isDragging) {
-      const newLinePosition = getNewLinePosition(e);
-      doStateChanges(undefined, newLinePosition);
+      handleLineChanges(e, undefined);
     }
   };
 
-  const onMouseUpHandler = (e: MouseEvent<HTMLDivElement>) => {
+  const onMouseUpAndLeaveHandler = (e: MouseEvent<HTMLDivElement>) => {
+    e.preventDefault();
     if (isDragging) {
       const current = audioRef.current as HTMLAudioElement;
       const newLinePosition = getNewLinePosition(e);
@@ -43,21 +72,35 @@ function AudioLine({ audioRef, linePosition, doStateChanges, isDragging }: Props
     }
   }
 
-  const onMouseLeaveHandler = (e: MouseEvent<HTMLDivElement>) => {
-    if (isDragging) {
-      const newLinePosition = getNewLinePosition(e);
-      doStateChanges(false, newLinePosition);
+  const onTouchEndHandler = (e: TouchEvent) => {
+    const current = audioRef.current as HTMLAudioElement;
+    const newLinePosition = getNewLinePosition(e);
+    current.currentTime = current.duration * newLinePosition / HUNDRED_PERCENT;
+    doStateChanges(false, newLinePosition);
+  }
+
+  const onTouchStartHandler = (e: TouchEvent) => {
+    handleLineChanges(e, true);
+  };
+
+  const onTouchMoveHandler = (e: TouchEvent) => {
+    if (e.touches.length) {
+      handleLineChanges(e, undefined);
     }
   }
 
   return (
     <div
-      className="w-8/12 md:w-10/12 bg-neonPink cursor-grab"
+      ref={lineRef}
+      className="w-8/12 md:w-10/12 bg-neonPink cursor-pointer"
       style={{ backgroundImage: lineGradient }}
       onMouseDown={onMouseDownHandler}
       onMouseMove={onMouseMoveHandler}
-      onMouseUp={onMouseUpHandler}
-      onMouseLeave={onMouseLeaveHandler}
+      onMouseUp={onMouseUpAndLeaveHandler}
+      onMouseLeave={onMouseUpAndLeaveHandler}
+      // onTouchStart={onTouchStartHandler}
+      // onTouchMove={onTouchMoveHandler}
+      // onTouchEnd={testFunc}
     />
   );
 }
